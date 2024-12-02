@@ -1,0 +1,11 @@
+<h1>{{ car.brand }} {{ car.model }}</h1>
+<p>Rok produkcji: {{ car.year }}</p>
+<p>Cena wynajmu: {{ car.rental_price }}</p>
+<p>Dostępny: {{ car.is_available }}</p>
+<p>Przedstawiciel: {{ car.representative }}</p>
+<a href="{% url 'car_update' car.id %}">Edytuj</a>
+<form method="post" action="{% url 'car_delete' car.id %}">
+    {% csrf_token %}
+    <button type="submit">Usuń</button>
+</form>
+<a href="{% url 'car_list' %}">Powrót do listy</a>

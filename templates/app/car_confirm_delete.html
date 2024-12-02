@@ -1,0 +1,7 @@
+<h1>Czy na pewno chcesz usunąć samochód?</h1>
+<p>{{ car }}</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Usuń</button>
+</form>
+<a href="{% url 'car_list' %}">Anuluj</a>

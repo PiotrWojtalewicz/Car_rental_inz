@@ -1,0 +1,7 @@
+<h1>{{ form.instance.id|yesno:"Edycja samochodu,Dodaj nowy samochód" }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Zapisz</button>
+</form>
+<a href="{% url 'car_list' %}">Powrót do listy</a>
