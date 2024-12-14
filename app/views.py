@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Car
 from .forms import CarForm
 from .forms import RegistrationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate,logout
 from .forms import LoginForm
 
 
@@ -88,3 +88,6 @@ def login_view(request):
         form = LoginForm()
     return render(request, 'app/login.html', {'form': form})
 
+def logout_view(request):
+    logout(request)
+    return redirect('login')
