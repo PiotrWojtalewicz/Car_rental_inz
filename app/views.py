@@ -8,7 +8,8 @@ from .forms import LoginForm
 
 
 def home(request):
-    return HttpResponse("Witaj w naszej wypożyczalni samochodów!")
+    # return HttpResponse("Witaj w naszej wypożyczalni samochodów!")
+    return render(request, 'app/home.html')
 def car_list(request):
     cars = Car.objects.all()  # Pobranie wszystkich samochodów
     return render(request, 'app/car_list.html', {'cars': cars})
