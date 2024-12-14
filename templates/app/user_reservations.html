@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Moje rezerwacje</title>
+</head>
+<body>
+    <h1>Moje rezerwacje</h1>
+    <ul>
+        {% for reservation in reservations %}
+            <li>{{ reservation.car.brand }} {{ reservation.car.model }} - zarezerwowane: {{ reservation.reservation_date }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'car_list' %}">Powrót do listy pojazdów</a>
+    <a href="{% url 'logout' %}">Wyloguj</a>
+</body>
+</html>
