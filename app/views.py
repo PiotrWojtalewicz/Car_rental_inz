@@ -1,7 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Car
-from .forms import CarForm  # Załóżmy, że przygotujemy formularz dla modelu Car
+from .forms import CarForm
+from .forms import RegistrationForm
+from django.contrib.auth import login, authenticate
 
 def home(request):
     return HttpResponse("Witaj w naszej wypożyczalni samochodów!")
@@ -48,3 +50,22 @@ def car_delete(request, car_id):
         car.delete()
         return redirect('car_list')
     return render(request, 'app/car_confirm_delete.html', {'car': car})
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            # Tworzenie nowego użytkownika
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])  # Ustawienie zahaszowanego hasła
+            user.save()
+
+            # Logowanie użytkownika po rejestracji
+            user = authenticate(username=user.username, password=form.cleaned_data['password'])
+            login(request, user)
+
+            return redirect('home')  # Przekierowanie po udanej rejestracji
+    else:
+        form = RegistrationForm()
+
+    return render(request, 'app/register.html', {'form': form})
