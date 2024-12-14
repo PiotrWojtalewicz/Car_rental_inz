@@ -4,6 +4,8 @@ from .models import Car
 from .forms import CarForm
 from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate
+from .forms import LoginForm
+
 
 def home(request):
     return HttpResponse("Witaj w naszej wypożyczalni samochodów!")
@@ -69,3 +71,20 @@ def register(request):
         form = RegistrationForm()
 
     return render(request, 'app/register.html', {'form': form})
+
+def login_view(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('car_list')  # Przekierowanie na stronę z listą samochodów (lub inną stronę)
+            else:
+                form.add_error(None, "Invalid username or password")
+    else:
+        form = LoginForm()
+    return render(request, 'app/login.html', {'form': form})
+
