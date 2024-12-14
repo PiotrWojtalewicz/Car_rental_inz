@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>{{ car.brand }} {{ car.model }}</h1>
 <p>Rok produkcji: {{ car.year }}</p>
 <p>Cena wynajmu: {{ car.rental_price }}</p>
@@ -9,3 +11,4 @@
     <button type="submit">Usuń</button>
 </form>
 <a href="{% url 'car_list' %}">Powrót do listy</a>
+{% endblock %}

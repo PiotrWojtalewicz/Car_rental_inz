@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>{{ form.instance.id|yesno:"Edycja samochodu,Dodaj nowy samochód" }}</h1>
 <form method="post">
     {% csrf_token %}
@@ -5,3 +7,4 @@
     <button type="submit">Zapisz</button>
 </form>
 <a href="{% url 'car_list' %}">Powrót do listy</a>
+{% endblock %}

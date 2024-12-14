@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+
 <h1>Lista samochodów</h1>
 <ul>
     {% for car in cars %}
@@ -7,6 +10,8 @@
     {% endfor %}
 </ul>
 <a href="{% url 'car_create' %}">Dodaj nowy samochód</a>
+
+{% endblock %}
 {#To powyzej działa#}
 
 {#<h1>Lista samochodów</h1>#}
