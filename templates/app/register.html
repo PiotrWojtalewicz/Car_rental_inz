@@ -1,22 +1,13 @@
-<!-- templates/app/register.html -->
 {% extends 'base.html' %}
-{% block content %}
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rejestracja</title>
-</head>
-<body>
-    <h1>Rejestracja</h1>
 
-    <form method="POST">
+{% block content %}
+    <h2>Rejestracja</h2>
+
+    <p>Hasło musi mieć co najmniej 4 znaki, w tym jedną wielką literę.</p> <!-- Informacja o haśle -->
+
+    <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}  <!-- Renderowanie formularza jako paragrafów -->
+        {{ form.as_p }}
         <button type="submit">Zarejestruj się</button>
     </form>
-
-</body>
-</html>
 {% endblock %}
