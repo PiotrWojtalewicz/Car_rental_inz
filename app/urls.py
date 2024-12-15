@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from .views import login_view, logout_view
 from django.contrib.auth import views as auth_views
+from .views import user_dashboard,rental_history,available_cars
 urlpatterns = [
     path('', views.home, name='home'),  # Domyślny widok
     # Widoki dotyczące samochodów
@@ -19,4 +20,8 @@ urlpatterns = [
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('dashboard/', user_dashboard, name='dashboard'),
+    path('profile/', views.user_profile, name='profile'),
+    path('rental-history/', rental_history, name='rental_history'),
+    path('available-cars/', available_cars, name='available_cars'),
 ]

@@ -5,7 +5,7 @@ from .forms import CarForm
 from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate,logout
 from .forms import LoginForm
-
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     # return HttpResponse("Witaj w naszej wypożyczalni samochodów!")
@@ -82,7 +82,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('car_list')  # Przekierowanie na stronę z listą samochodów (lub inną stronę)
+                return redirect('dashboard')  # Przekierowanie na stronę z listą samochodów (lub inną stronę)
             else:
                 form.add_error(None, "Invalid username or password")
     else:
@@ -92,3 +92,21 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+@login_required
+def user_dashboard(request):
+    return render(request, 'app/dashboard.html', {'user': request.user})
+
+def user_profile(request):
+    return render(request, 'app/profile.html', {'user': request.user})
+
+@login_required
+def rental_history(request):
+    # Placeholder dla historii wypożyczeń
+    rentals = []  # W przyszłości dodamy rzeczywiste dane wypożyczeń użytkownika
+    return render(request, 'app/rental_history.html', {'rentals': rentals})
+
+def available_cars(request):
+    # Pobierz dostępne samochody
+    cars = Car.objects.filter(is_available=True)  # Zakładając, że pole `is_available` wskazuje dostępność
+    return render(request, 'app/available_cars.html', {'cars': cars})

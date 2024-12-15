@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Historia wypożyczeń</h1>
+
+{% if rentals %}
+    <ul>
+        {% for rental in rentals %}
+            <li>{{ rental }}</li> <!-- Tutaj wstaw dane o wypożyczeniach -->
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nie masz jeszcze historii wypożyczeń.</p>
+{% endif %}
+
+<p><a href="{% url 'dashboard' %}">Powrót do panelu użytkownika</a></p>
+{% endblock %}

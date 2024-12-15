@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Profil użytkownika</h1>
+<p>Witaj, {{ user.first_name }} {{ user.last_name }}!</p>
+
+<ul>
+    <li><strong>Imię:</strong> {{ user.first_name }}</li>
+    <li><strong>Nazwisko:</strong> {{ user.last_name }}</li>
+    <li><strong>Email:</strong> {{ user.email }}</li>
+    <li><strong>Data dołączenia:</strong> {{ user.date_joined|date:"d-m-Y" }}</li>
+</ul>
+
+<p><a href="{% url 'dashboard' %}">Powrót do panelu</a></p>
+{% endblock %}

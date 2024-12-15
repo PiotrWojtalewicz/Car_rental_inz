@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Witaj, {{ user.first_name }}!</h1>
+<p>To jest Twój panel użytkownika. Wybierz jedną z opcji:</p>
+
+<ul>
+    <li><a href="{% url 'profile' %}">Profil</a></li>
+    <li><a href="{% url 'rental_history' %}">Historia wypożyczeń</a></li>
+    <li><a href="{% url 'available_cars' %}">Lista dostępnych samochodów</a></li>
+</ul>
+{% endblock %}
