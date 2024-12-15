@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Car
 from .forms import CarForm
-from .forms import RegistrationForm
+from .forms import RegistrationForm,ProfileEditForm
 from django.contrib.auth import login, authenticate,logout
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required
@@ -110,3 +110,14 @@ def available_cars(request):
     # Pobierz dostępne samochody
     cars = Car.objects.filter(is_available=True)  # Zakładając, że pole `is_available` wskazuje dostępność
     return render(request, 'app/available_cars.html', {'cars': cars})
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = ProfileEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Przekierowanie po zapisaniu
+    else:
+        form = ProfileEditForm(instance=request.user)
+    return render(request, 'app/edit_profile.html', {'form': form})

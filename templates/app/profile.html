@@ -10,6 +10,6 @@
     <li><strong>Email:</strong> {{ user.email }}</li>
     <li><strong>Data dołączenia:</strong> {{ user.date_joined|date:"d-m-Y" }}</li>
 </ul>
-
+<a href="{% url 'edit_profile' %}">Edytuj profil</a>
 <p><a href="{% url 'dashboard' %}">Powrót do panelu</a></p>
 {% endblock %}

@@ -24,4 +24,5 @@ urlpatterns = [
     path('profile/', views.user_profile, name='profile'),
     path('rental-history/', rental_history, name='rental_history'),
     path('available-cars/', available_cars, name='available_cars'),
+    path('edit_profile/', views.edit_profile, name='edit_profile')
 ]
