@@ -40,6 +40,12 @@ urlpatterns = [
     #możliwośc wypożyczenia samochodu
     path('availability/', views.availability_calendar, name='availability_calendar'),
     path('rent_car/<int:car_id>/', views.rent_car, name='rent_car'),
+    #warunki umowy
+    path('rent_car/<int:car_id>/', views.rent_car, name='rent_car'),
+    path('terms_conditions/', views.terms_conditions, name='terms_conditions'),
+    path('rent_car/<int:car_id>/', views.rent_car, name='rent_car'),
+    #płatność
+    path('reservation_summary/<int:car_id>/', views.reservation_summary, name='reservation_summary'),
     #kalendarz
     # path('car/<int:car_id>/rental/', views.car_rental, name='car_rental'),
     # path('rental/confirmation/<int:rental_id>/', views.rental_confirmation, name='rental_confirmation'),

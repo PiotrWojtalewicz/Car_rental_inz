@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Warunki wypożyczenia</h2>
+  <p>Wszystkie warunki wypożyczenia są zawarte w tym dokumencie. Proszę zapoznać się z nimi przed dokonaniem rezerwacji.</p>
+  <ul>
+    <li>Warunek 1</li>
+    <li>Warunek 2</li>
+    <li>Warunek 3</li>
+    <!-- Tutaj dodaj szczegółowe warunki wypożyczenia -->
+  </ul>
+  <a href="{% url 'rent_car' car_id %}">Powrót do rezerwacji</a>
+{% endblock %}
