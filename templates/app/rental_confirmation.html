@@ -1,0 +1,11 @@
+<!-- app/templates/app/rental_confirmation.html -->
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Potwierdzenie rezerwacji</h1>
+  <p>Rezerwacja samochodu: {{ rental.car }}</p>
+  <p>Data rozpoczęcia: {{ rental.start_date }}</p>
+  <p>Data zakończenia: {{ rental.end_date }}</p>
+  <p>Całkowity koszt: {{ rental.total_cost }}</p>
+  <p>Status: {{ rental.get_status_display }}</p>
+{% endblock %}

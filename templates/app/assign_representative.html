@@ -1,0 +1,11 @@
+<h1>Przypisz przedstawiciela do samochodu</h1>
+<form method="POST">
+    {% csrf_token %}
+    <label for="representative">Wybierz przedstawiciela:</label>
+    <select id="representative" name="representative" required>
+        {% for rep in representatives %}
+            <option value="{{ rep.id }}">{{ rep.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Przypisz</button>
+</form>

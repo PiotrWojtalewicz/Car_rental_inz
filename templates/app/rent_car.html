@@ -1,0 +1,14 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Wypożyczenie samochodu: {{ car.brand }} {{ car.model }}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Zarezerwuj</button>
+  </form>
+
+  <p>Samochód: {{ car.brand }} {{ car.model }} ({% if car.is_available %}dostępny{% else %}niedostępny{% endif %})</p>
+{% endblock %}

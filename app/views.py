@@ -1,11 +1,15 @@
+from datetime import timedelta
+
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Car
+from .models import Car, Rental,Representative
 from .forms import CarForm
 from .forms import RegistrationForm,ProfileEditForm
 from django.contrib.auth import login, authenticate,logout
-from .forms import LoginForm
+from .forms import LoginForm,RentalForm
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from django.contrib import messages
 
 def home(request):
     # return HttpResponse("Witaj w naszej wypożyczalni samochodów!")
@@ -121,3 +125,223 @@ def edit_profile(request):
     else:
         form = ProfileEditForm(instance=request.user)
     return render(request, 'app/edit_profile.html', {'form': form})
+
+@login_required
+def rental_history(request):
+    rentals = Rental.objects.filter(user=request.user)
+    return render(request, 'app/rental_history.html', {'rentals': rentals})
+
+def user_rentals(request):
+    # Pobieramy wszystkie wypożyczenia danego użytkownika
+    rentals = Rental.objects.filter(user=request.user)
+
+    # Przekazujemy zmienną rentals do szablonu
+    return render(request, 'app/rentals.html', {'rentals': rentals})
+
+@login_required
+def add_car(request):
+    if request.method == 'POST':
+        model = request.POST.get('model')
+        brand = request.POST.get('brand')
+        year = int(request.POST.get('year'))
+        rental_price = float(request.POST.get('rental_price'))
+        #is_available = bool(request.POST.get('is_available'))
+        is_available = 'is_available' in request.POST
+
+        # Możesz dodać reprezentanta lub ustawić go na None
+        representative = Representative.objects.first()  # Ustaw jakiegoś reprezentanta lub None
+
+        # Tworzymy nowy samochód
+        car = Car.objects.create(
+            model=model,
+            brand=brand,
+            year=year,
+            rental_price=rental_price,
+            is_available=is_available,
+            representative=representative,
+        )
+        car.save()
+        return redirect('dashboard')  # Po dodaniu przekierowujemy do dashboardu
+
+    return render(request, 'app/add_car.html')
+
+# @login_required
+# def rent_car(request, car_id):
+#     car = Car.objects.get(id=car_id)
+#
+#     # Tworzymy wypożyczenie
+#     rental = Rental.objects.create(
+#         car=car,
+#         user=request.user,
+#         start_date=timezone.now().date(),
+#         end_date=timezone.now().date() + timedelta(days=7),  # Na przykład 7 dni
+#         total_cost=car.rental_price * 7,  # Koszt wypożyczenia na 7 dni
+#     )
+#
+#     # Zmiana dostępności samochodu na niedostępny
+#     car.is_available = False
+#     car.save()
+#
+#     return redirect('rentals')
+
+# def rent_car(request, car_id):
+#     car = Car.objects.get(id=car_id)
+#
+#     if request.method == 'POST':
+#         form = RentalForm(request.POST)
+#         if form.is_valid():
+#             # Pobieramy dane z formularza
+#
+#             start_date = form.cleaned_data['start_date']
+#             end_date = form.cleaned_data['end_date']
+#             total_cost = car.rental_price * (end_date - start_date).days  # Obliczamy koszt na podstawie dat
+#
+#             # Tworzymy nowe wypożyczenie
+#             rental = Rental.objects.create(
+#                 car=car,
+#                 user=request.user,
+#                 start_date=start_date,
+#                 end_date=end_date,
+#                 total_cost=total_cost,
+#             )
+#
+#             # Zmieniamy dostępność samochodu na niedostępny
+#             car.is_available = False
+#             car.save()
+#
+#             return redirect('rentals')  # Przekierowanie do strony z listą wypożyczeń
+#     else:
+#         form = RentalForm()
+#
+#     return render(request, 'app/rent_car.html', {'form': form, 'car': car})
+@login_required
+def rent_car(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+
+    if request.method == 'POST':
+        form = RentalForm(request.POST)
+        if form.is_valid():
+            # Utwórz obiekt rezerwacji, ale go nie zapisuj jeszcze
+            rental = form.save(commit=False)
+            rental.car = car
+            rental.user = request.user
+
+            # Oblicz koszt rezerwacji
+            start_date = rental.start_date
+            end_date = rental.end_date
+            rental_duration = (end_date - start_date).days
+            total_cost = car.rental_price * rental_duration
+            rental.total_cost = total_cost
+
+            # Przekierowanie do strony podsumowania rezerwacji
+            request.session['rental_data'] = {
+                'car_id': car.id,
+                'start_date': start_date,
+                'end_date': end_date,
+                'total_cost': total_cost
+            }
+
+            return redirect('reservation_summary')  # Przekierowanie do podsumowania
+    else:
+        form = RentalForm()
+
+    return render(request, 'rent_car.html', {'form': form, 'car': car})
+
+
+# @login_required
+# def car_rental(request, car_id):
+#     car = Car.objects.get(id=car_id)
+#     form = RentalForm(request.POST or None)
+#
+#     if request.method == "POST" and form.is_valid():
+#         # Sprawdzamy, czy samochód jest dostępny w wybranym okresie
+#         start_date = form.cleaned_data['start_date']
+#         end_date = form.cleaned_data['end_date']
+#
+#         conflicting_rentals = Rental.objects.filter(
+#             car=car,
+#             start_date__lt=end_date,
+#             end_date__gt=start_date,
+#             status='active'
+#         )
+#
+#         if conflicting_rentals.exists():
+#             form.add_error(None, "Samochód jest niedostępny w wybranym okresie.")
+#         else:
+#             rental = form.save(commit=False)
+#             rental.user = request.user
+#             rental.car = car
+#             rental.status = 'active'
+#             rental.total_cost = rental.calculate_total_cost()
+#             car.is_available = False  # Samochód nie jest dostępny
+#             car.save()
+#             rental.save()
+#             return redirect('rental_confirmation', rental_id=rental.id)
+#
+#     return render(request, 'app/car_rental.html', {
+#         'car': car,
+#         'form': form
+#     })
+def availability_calendar(request):
+    # Pobranie dzisiejszej daty
+    today = timezone.now().date()
+
+    # Pobranie wszystkich samochodów
+    cars = Car.objects.all()
+
+    # Wyszukiwanie wypożyczeń w wybranym dniu
+    rentals = Rental.objects.filter(
+        start_date__lte=today,
+        end_date__gte=today,
+        status='active'
+    )
+
+    # Lista samochodów, które są dostępne w danym dniu
+    available_cars = [car for car in cars if not any(rental.car == car for rental in rentals)]
+
+    # Renderowanie szablonu
+    return render(request, 'app/availability_calendar.html', {
+        'available_cars': available_cars,
+        'today': today,
+    })
+
+@login_required
+def rental_confirmation(request, rental_id):
+    rental = Rental.objects.get(id=rental_id)
+    return render(request, 'app/rental_confirmation.html', {'rental': rental})
+
+
+@login_required
+def reservation_summary(request):
+    rental_data = request.session.get('rental_data', None)
+
+    if rental_data is None:
+        return redirect('rent_car')  # Jeśli brak danych, wróć do formularza
+
+    if request.method == 'POST':
+        payment_method = request.POST.get('payment_method')
+        accept_terms = request.POST.get('accept_terms')
+
+        if accept_terms != 'on':
+            messages.error(request, "Musisz zaakceptować warunki wypożyczenia!")
+            return redirect('reservation_summary')  # Przekierowanie z komunikatem o błędzie
+
+        # Utwórz rezerwację na podstawie danych z sesji
+        car = get_object_or_404(Car, id=rental_data['car_id'])
+        rental = Rental.objects.create(
+            car=car,
+            user=request.user,
+            start_date=rental_data['start_date'],
+            end_date=rental_data['end_date'],
+            total_cost=rental_data['total_cost'],
+            payment_method=payment_method,
+        )
+
+        # Zmiana dostępności samochodu na niedostępny
+        car.is_available = False
+        car.save()
+
+        # Usuń dane z sesji
+        del request.session['rental_data']
+
+        return redirect('rentals')

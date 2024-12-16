@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Historia wypożyczeń</h1>
+
+    {% if rentals %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Marka</th>
+                    <th>Model</th>
+                    <th>Rok</th>
+                    <th>Data wypożyczenia</th>
+                    <th>Data zwrotu</th>
+                    <th>Cena</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rental in rentals %}
+                    <tr>
+                        <td>{{ rental.car.brand }}</td>
+                        <td>{{ rental.car.model }}</td>
+                        <td>{{ rental.car.year }}</td>
+                        <td>{{ rental.start_date }}</td>
+                        <td>{{ rental.end_date }}</td>
+                        <td>{{ rental.price }}</td>
+                        <td>{% if rental.is_active %} Aktywne {% else %} Zakończone {% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nie masz jeszcze żadnej historii wypożyczeń.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,22 @@
+<form method="POST">
+    {% csrf_token %}
+    <h2>Podsumowanie Rezerwacji</h2>
+
+    <p><strong>Data rozpoczęcia:</strong> {{ start_date }}</p>
+    <p><strong>Data zakończenia:</strong> {{ end_date }}</p>
+    <p><strong>Kwota do zapłaty:</strong> {{ total_cost }} PLN</p>
+
+    <label for="payment_method">Wybierz metodę płatności:</label>
+    <select name="payment_method" id="payment_method">
+        <option value="card">Karta kredytowa</option>
+        <option value="transfer">Przelew bankowy</option>
+        <option value="cash">Gotówka</option>
+    </select>
+
+    <div>
+        <input type="checkbox" name="accept_terms" required>
+        <label for="accept_terms">Akceptuję warunki wypożyczenia</label>
+    </div>
+
+    <button type="submit">Zakończ rezerwację</button>
+</form>

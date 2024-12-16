@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Historia wypożyczeń</h1>
+  <h1>Historia wypożyczeń</h1>
 
-{% if rentals %}
+  {% if rentals %}
     <ul>
-        {% for rental in rentals %}
-            <li>{{ rental }}</li> <!-- Tutaj wstaw dane o wypożyczeniach -->
-        {% endfor %}
+      {% for rental in rentals %}
+        <li>
+          <strong>Samochód:</strong> {{ rental.car.brand }} {{ rental.car.model }}<br>
+          <strong>Data wypożyczenia:</strong> {{ rental.start_date }}<br>
+          <strong>Data zwrotu:</strong> {{ rental.end_date }}<br>
+          <strong>Status:</strong> {{ rental.get_status_display }}<br>
+          <strong>Całkowity koszt:</strong> {{ rental.total_cost }} PLN<br>
+        </li>
+      {% endfor %}
     </ul>
-{% else %}
+  {% else %}
     <p>Nie masz jeszcze historii wypożyczeń.</p>
-{% endif %}
-
-<p><a href="{% url 'dashboard' %}">Powrót do panelu użytkownika</a></p>
+  {% endif %}
 {% endblock %}
