@@ -1,13 +1,118 @@
-{% extends 'base.html' %}
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#  <h2>Warunki wypożyczenia</h2>#}
+{#  <p>Wszystkie warunki wypożyczenia są zawarte w tym dokumencie. Proszę zapoznać się z nimi przed dokonaniem rezerwacji.</p>#}
+{#  <ul>#}
+{#    <li>Warunek 1</li>#}
+{#    <li>Warunek 2</li>#}
+{#    <li>Warunek 3</li>#}
+{#    <!-- Tutaj dodaj szczegółowe warunki wypożyczenia -->#}
+{#  </ul>#}
+{#  <a href="{% url 'rent_car' car_id %}">Powrót do rezerwacji</a>#}
+{#{% endblock %}#}
 
-{% block content %}
-  <h2>Warunki wypożyczenia</h2>
-  <p>Wszystkie warunki wypożyczenia są zawarte w tym dokumencie. Proszę zapoznać się z nimi przed dokonaniem rezerwacji.</p>
-  <ul>
-    <li>Warunek 1</li>
-    <li>Warunek 2</li>
-    <li>Warunek 3</li>
-    <!-- Tutaj dodaj szczegółowe warunki wypożyczenia -->
-  </ul>
-  <a href="{% url 'rent_car' car_id %}">Powrót do rezerwacji</a>
-{% endblock %}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Warunki wypożyczenia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.8em;
+      margin-bottom: 0.8em;
+    }
+    p {
+      margin-bottom: 1em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Warunki wypożyczenia samochodu</h1>
+
+  <p>
+    Niniejszy dokument określa warunki wynajmu samochodu, z którymi każdy klient
+    (dalej „Najemca”) zobowiązuje się zapoznać i zaakceptować przed dokonaniem rezerwacji.
+    Warunki te stanowią całość umowy pomiędzy Najemcą a Wypożyczalnią i są wiążące
+    dla obu stron.
+  </p>
+
+  <p>
+    1. <strong>Prawo jazdy i dokumenty tożsamości</strong><br>
+    Najemca oświadcza, że posiada ważne prawo jazdy oraz okazał dokument tożsamości.
+    Prawo jazdy musi być ważne w kraju, w którym dokonano rezerwacji,
+    a Najemca musi spełniać wszelkie lokalne wymogi wiekowe do prowadzenia samochodu.
+  </p>
+
+  <p>
+    2. <strong>Odpowiedzialność Najemcy za pojazd</strong><br>
+    Najemca zobowiązuje się do użytkowania samochodu w sposób zgodny z prawem oraz
+    z zasadami bezpieczeństwa ruchu drogowego. Wszelkie koszty związane z mandatami,
+    opłatami parkingowymi lub innymi karami administracyjnymi obciążają wyłącznie Najemcę.
+  </p>
+
+  <p>
+    3. <strong>Okres najmu i zwrot pojazdu</strong><br>
+    Najemca zobowiązuje się do zwrotu pojazdu w miejscu i terminie ustalonym przy rezerwacji.
+    Przedłużenie okresu najmu musi być zgłoszone Wypożyczalni z wyprzedzeniem
+    i wymaga dodatkowej opłaty według cennika Wypożyczalni.
+  </p>
+
+  <p>
+    4. <strong>Ubezpieczenie i szkody</strong><br>
+    Pojazd posiada obowiązkowe ubezpieczenie OC. Najemca jest zobowiązany do
+    niezwłocznego powiadomienia Wypożyczalni o wszelkich kolizjach, wypadkach czy uszkodzeniach.
+    W przypadku wystąpienia szkód przekraczających wartość ubezpieczenia
+    Najemca zobowiązany jest do pokrycia różnicy.
+  </p>
+
+  <p>
+    5. <strong>Zaliczka i kaucja</strong><br>
+    Najemca jest zobowiązany do uiszczenia <strong>zaliczki w wysokości 100 EUR</strong>
+    płatnej gotówką na miejscu. Kwota ta służy jako zabezpieczenie pokrycia ewentualnych szkód
+    powstałych z winy Najemcy w trakcie użytkowania pojazdu.
+    Jeśli wysokość szkód przekracza 100 EUR, Najemca jest zobowiązany do pokrycia
+    całkowitego kosztu naprawy. W przypadku braku szkód zaliczka zostanie zwrócona
+    Najemcy po zakończeniu okresu najmu.
+  </p>
+
+  <p>
+    6. <strong>Anulowanie rezerwacji</strong><br>
+    Najemca może anulować rezerwację samochodu przed datą rozpoczęcia najmu,
+    jednak może to wiązać się z opłatą anulacyjną według cennika Wypożyczalni.
+    Wysokość opłaty anulacyjnej zależy od terminu, w którym Najemca zgłosi rezygnację.
+  </p>
+
+  <p>
+    7. <strong>Metody płatności</strong><br>
+    Wypożyczalnia akceptuje płatności gotówką, kartą kredytową, kartą debetową
+    lub przelewem bankowym (w przypadku wcześniejszej rezerwacji).
+    Opłata za wynajem musi zostać uregulowana w całości przed odbiorem pojazdu,
+    chyba że Wypożyczalnia postanowi inaczej.
+  </p>
+
+  <p>
+    8. <strong>Odpowiedzialność Wypożyczalni</strong><br>
+    Wypożyczalnia nie ponosi odpowiedzialności za straty lub szkody osobiste Najemcy,
+    utratę lub uszkodzenie jego mienia, chyba że wynikają one z zaniedbania lub winy
+    umyślnej Wypożyczalni.
+  </p>
+
+  <p>
+    9. <strong>Postanowienia końcowe</strong><br>
+    Wszelkie spory wynikające z niniejszych warunków będą rozstrzygane przez sąd
+    właściwy dla siedziby Wypożyczalni. W sprawach nieuregulowanych niniejszym dokumentem
+    stosuje się odpowiednie przepisy prawa obowiązującego w kraju, w którym
+    dokonano rezerwacji.
+  </p>
+
+</body>
+</html>
