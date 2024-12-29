@@ -10,6 +10,7 @@ from .forms import LoginForm,RentalForm
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
+from datetime import datetime
 
 def home(request):
     # return HttpResponse("Witaj w naszej wypożyczalni samochodów!")
@@ -247,6 +248,32 @@ def add_car(request):
 #
 #     return render(request, 'rent_car.html', {'form': form, 'car': car})
 
+# @login_required
+# def rent_car(request, car_id):
+#     car = get_object_or_404(Car, id=car_id)
+#
+#     if request.method == 'POST':
+#         form = RentalForm(request.POST)
+#         if form.is_valid():
+#             # Tworzymy wypożyczenie na podstawie danych z formularza
+#             rental = form.save(commit=False)
+#             rental.user = request.user
+#             rental.car = car
+#             rental.total_cost = car.rental_price * (rental.end_date - rental.start_date).days  # Koszt wypożyczenia
+#             rental.save()
+#
+#             # Zmiana dostępności samochodu na niedostępny
+#             car.is_available = False
+#             car.save()
+#
+#             return redirect('rentals')  # Przekierowanie do strony z listą wypożyczeń
+#             # return redirect('reservation_summary', car_id=car.id, start_date=rental.start_date,
+#                             # end_date=rental.end_date)
+#     else:
+#         form = RentalForm()
+#
+#     return render(request, 'app/rent_car.html', {'form': form, 'car': car})
+
 @login_required
 def rent_car(request, car_id):
     car = get_object_or_404(Car, id=car_id)
@@ -254,26 +281,28 @@ def rent_car(request, car_id):
     if request.method == 'POST':
         form = RentalForm(request.POST)
         if form.is_valid():
-            # Tworzymy wypożyczenie na podstawie danych z formularza
-            rental = form.save(commit=False)
-            rental.user = request.user
-            rental.car = car
-            rental.total_cost = car.rental_price * (rental.end_date - rental.start_date).days  # Koszt wypożyczenia
-            rental.save()
+            # Dane z formularza
+            # start_date = str(form.cleaned_data['start_date'])
+            start_date= form.cleaned_data['start_date']
+            # end_date = str(form.cleaned_data['end_date'])
+            end_date  = end_date = form.cleaned_data['end_date']
+            days = (end_date - start_date).days
+            total_cost = float(car.rental_price * days)
 
-            # Zmiana dostępności samochodu na niedostępny
-            car.is_available = False
-            car.save()
+            # Dane do podsumowania
+            request.session['rental_data'] = {
+                'car_id': car.id,
+                'start_date': start_date.strftime('%Y-%m-%d'),
+                'end_date': end_date.strftime('%Y-%m-%d'),
+                'total_cost': total_cost,
+            }
 
-            return redirect('rentals')  # Przekierowanie do strony z listą wypożyczeń
-            # return redirect('reservation_summary', car_id=car.id, start_date=rental.start_date,
-                            # end_date=rental.end_date)
+            return redirect('reservation_summary', car_id=car.id)
+
     else:
         form = RentalForm()
 
     return render(request, 'app/rent_car.html', {'form': form, 'car': car})
-
-
 
 # @login_required
 # def car_rental(request, car_id):
@@ -381,29 +410,102 @@ def terms_conditions(request):
 
     return render(request, 'app/terms_conditions.html', {'car': car})
 
+# @login_required
+# def reservation_summary(request, car_id):
+#     car = get_object_or_404(Car, id=car_id)
+#
+#     if request.method == 'POST':
+#         # Sprawdź, czy formularz płatności jest poprawny
+#         payment_method = request.POST.get('payment_method')
+#
+#         # Tu możesz dodać logikę do przetwarzania płatności w zależności od wybranej metody
+#         # Na razie tylko wyświetlimy podsumowanie, ale możesz rozszerzyć to o integrację z API płatności
+#
+#         return render(request, 'app/payment_success.html', {'car': car, 'payment_method': payment_method})
+#
+#     # Wypełniamy dane o rezerwacji
+#     rental_start_date = request.GET.get('start_date')
+#     rental_end_date = request.GET.get('end_date')
+#     rental_days = (rental_end_date - rental_start_date).days
+#     total_cost = car.rental_price * rental_days
+#
+#     return render(request, 'app/reservation_summary.html', {
+#         'car': car,
+#         'rental_start_date': rental_start_date,
+#         'rental_end_date': rental_end_date,
+#         'rental_days': rental_days,
+#         'total_cost': total_cost
+#     })
+# @login_required
+# def reservation_summary(request, car_id):
+#     rental_data = request.session.get('rental_data')
+#
+#     if not rental_data:
+#         return redirect('rent_car', car_id=car_id)
+#
+#     car = get_object_or_404(Car, id=car_id)
+#
+#     if request.method == 'POST':
+#         payment_method = request.POST.get('payment_method')
+#
+#         if not payment_method:
+#             messages.error(request, "Wybierz metodę płatności!")
+#             return redirect('reservation_summary', car_id=car_id)
+#
+#         # Dane płatności
+#         rental_data['payment_method'] = payment_method
+#         request.session['rental_data'] = rental_data
+#
+#         return redirect('payment_view', rental_id=rental_data['rental_id'])
+#
+#     return render(request, 'app/reservation_summary.html', {
+#         'car': car,
+#         'rental_data': rental_data,
+#     })
 @login_required
 def reservation_summary(request, car_id):
+    rental_data = request.session.get('rental_data')
+
+    if not rental_data:
+        return redirect('rent_car', car_id=car_id)
+
     car = get_object_or_404(Car, id=car_id)
 
+    # Oblicz liczbę dni
+    rental_start_date = datetime.strptime(rental_data['start_date'], '%Y-%m-%d').date()
+    rental_end_date = datetime.strptime(rental_data['end_date'], '%Y-%m-%d').date()
+    rental_days = (rental_end_date - rental_start_date).days
+
     if request.method == 'POST':
-        # Sprawdź, czy formularz płatności jest poprawny
         payment_method = request.POST.get('payment_method')
 
-        # Tu możesz dodać logikę do przetwarzania płatności w zależności od wybranej metody
-        # Na razie tylko wyświetlimy podsumowanie, ale możesz rozszerzyć to o integrację z API płatności
+        if not payment_method:
+            messages.error(request, "Wybierz metodę płatności!")
+            return redirect('reservation_summary', car_id=car_id)
 
-        return render(request, 'app/payment_success.html', {'car': car, 'payment_method': payment_method})
+        # Dane płatności
+        rental_data['payment_method'] = payment_method
+        request.session['rental_data'] = rental_data
 
-    # Wypełniamy dane o rezerwacji
-    rental_start_date = request.GET.get('start_date')
-    rental_end_date = request.GET.get('end_date')
-    rental_days = (rental_end_date - rental_start_date).days
-    total_cost = car.rental_price * rental_days
+        return redirect('payment_view', rental_id=rental_data['rental_id'])
 
+    # Przekazanie rental_days do kontekstu
     return render(request, 'app/reservation_summary.html', {
         'car': car,
-        'rental_start_date': rental_start_date,
-        'rental_end_date': rental_end_date,
+        'rental_data': rental_data,
         'rental_days': rental_days,
-        'total_cost': total_cost
     })
+
+
+@login_required
+def payment_view(request, rental_id):
+    rental = get_object_or_404(Rental, id=rental_id)
+
+    if request.method == 'POST':
+        # Logika przetwarzania płatności
+        rental.payment_status = 'paid'
+        rental.save()
+
+        return redirect('rentals')  # Przekierowanie do listy rezerwacji
+
+    return render(request, 'app/payment.html', {'rental': rental})

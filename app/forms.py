@@ -105,3 +105,4 @@ class RentalForm(forms.ModelForm):
         self.fields['start_date'].initial = today
         # Dodać minimalną datę dla end_date, żeby nie można było ustawić daty zakończenia przed datą rozpoczęcia
         self.fields['end_date'].widget.attrs['min'] = today
+

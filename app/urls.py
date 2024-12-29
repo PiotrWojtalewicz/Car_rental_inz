@@ -27,6 +27,8 @@ urlpatterns = [
     path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('rentals/', views.user_rentals, name='rental_history'),
     path('add_car/', views.add_car, name='add_car'),
+
+
     #admin
     # path('admin/add_car/', views_admin.add_car, name='add_car'),
     # path('admin/car/<int:car_id>/update/', views_admin.car_update, name='car_update'),
@@ -41,11 +43,12 @@ urlpatterns = [
     path('availability/', views.availability_calendar, name='availability_calendar'),
     path('rent_car/<int:car_id>/', views.rent_car, name='rent_car'),
     #warunki umowy
-    path('rent_car/<int:car_id>/', views.rent_car, name='rent_car'),
+    # path('rent_car/<int:car_id>/', views.rent_car, name='rent_car'),
     path('terms_conditions/', views.terms_conditions, name='terms_conditions'),
     path('rent_car/<int:car_id>/', views.rent_car, name='rent_car'),
     #płatność
     path('reservation_summary/<int:car_id>/', views.reservation_summary, name='reservation_summary'),
+    path('payment/<int:rental_id>/', views.payment_view, name='payment_view'),
     #kalendarz
     # path('car/<int:car_id>/rental/', views.car_rental, name='car_rental'),
     # path('rental/confirmation/<int:rental_id>/', views.rental_confirmation, name='rental_confirmation'),

@@ -110,6 +110,9 @@ class Rental(models.Model):
     end_date = models.DateField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
+    payment_status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('paid', 'Paid')],
+                                      default='pending')
+    payment_method = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.car.brand} {self.car.model} ({self.start_date} to {self.end_date})"

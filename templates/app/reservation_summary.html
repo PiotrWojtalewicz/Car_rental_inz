@@ -21,16 +21,55 @@
 {#    <button type="submit">Zakończ rezerwację</button>#}
 {#</form>#}
 
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#  <h2>Podsumowanie rezerwacji</h2>#}
+{##}
+{#  <p><strong>Samochód:</strong> {{ car.name }}</p>#}
+{#  <p><strong>Data rozpoczęcia:</strong> {{ rental_start_date }}</p>#}
+{#  <p><strong>Data zakończenia:</strong> {{ rental_end_date }}</p>#}
+{#  <p><strong>Liczba dni:</strong> {{ rental_days }}</p>#}
+{#  <p><strong>Całkowity koszt:</strong> {{ total_cost }} PLN</p>#}
+{##}
+{#  <h3>Wybierz metodę płatności:</h3>#}
+{#  <form method="POST">#}
+{#    {% csrf_token %}#}
+{##}
+{#    <div class="form-check">#}
+{#      <input type="radio" class="form-check-input" id="payment_card" name="payment_method" value="credit_card" required>#}
+{#      <label class="form-check-label" for="payment_card">Płatność kartą kredytową</label>#}
+{#    </div>#}
+{##}
+{#    <div class="form-check">#}
+{#      <input type="radio" class="form-check-input" id="payment_cash" name="payment_method" value="cash" required>#}
+{#      <label class="form-check-label" for="payment_cash">Płatność gotówką na miejscu</label>#}
+{#    </div>#}
+{##}
+{#    <div class="form-check">#}
+{#      <input type="radio" class="form-check-input" id="payment_transfer" name="payment_method" value="bank_transfer" required>#}
+{#      <label class="form-check-label" for="payment_transfer">Płatność przelewem bankowym</label>#}
+{#    </div>#}
+{##}
+{#    <div class="form-check">#}
+{#      <input type="radio" class="form-check-input" id="payment_paypal" name="payment_method" value="paypal" required>#}
+{#      <label class="form-check-label" for="payment_paypal">Płatność PayPal</label>#}
+{#    </div>#}
+{##}
+{#    <button type="submit" class="btn btn-primary">Zatwierdź płatność</button>#}
+{#  </form>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 
 {% block content %}
   <h2>Podsumowanie rezerwacji</h2>
 
-  <p><strong>Samochód:</strong> {{ car.name }}</p>
-  <p><strong>Data rozpoczęcia:</strong> {{ rental_start_date }}</p>
-  <p><strong>Data zakończenia:</strong> {{ rental_end_date }}</p>
+  <p><strong>Samochód:</strong> {{ car.brand }} {{ car.model }}</p>
+  <p><strong>Data rozpoczęcia:</strong> {{ rental_data.start_date }}</p>
+  <p><strong>Data zakończenia:</strong> {{ rental_data.end_date }}</p>
   <p><strong>Liczba dni:</strong> {{ rental_days }}</p>
-  <p><strong>Całkowity koszt:</strong> {{ total_cost }} PLN</p>
+  <p><strong>Całkowity koszt:</strong> {{ rental_data.total_cost }} PLN</p>
 
   <h3>Wybierz metodę płatności:</h3>
   <form method="POST">
