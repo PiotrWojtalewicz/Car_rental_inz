@@ -52,5 +52,11 @@ urlpatterns = [
     #kalendarz
     # path('car/<int:car_id>/rental/', views.car_rental, name='car_rental'),
     # path('rental/confirmation/<int:rental_id>/', views.rental_confirmation, name='rental_confirmation'),
+    #widoki po wyborze metody płatności
+    path('payment_card/<int:car_id>/', views.payment_card, name='payment_card'),
+    path('payment_bank/<int:car_id>/', views.payment_bank, name='payment_bank'),
+    path('payment_paypal/<int:car_id>/', views.payment_paypal, name='payment_paypal'),
+    path('payment_cash/<int:car_id>/', views.payment_cash, name='payment_cash'),
+
 
 ]

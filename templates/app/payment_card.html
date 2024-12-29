@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Płatność kartą</h2>
+<p>Kwota do zapłaty: {{ rental_data.total_cost }} PLN</p>
+
+<form method="POST">
+  {% csrf_token %}
+  <label for="card_number">Numer karty:</label>
+  <input type="text" id="card_number" name="card_number" required><br>
+
+  <label for="card_holder">Imię i nazwisko posiadacza:</label>
+  <input type="text" id="card_holder" name="card_holder" required><br>
+
+  <label for="expiry_date">Data ważności:</label>
+  <input type="month" id="expiry_date" name="expiry_date" required><br>
+
+  <label for="csv_code">Kod CSV:</label>
+  <input type="text" id="csv_code" name="csv_code" required><br>
+
+  <button type="submit">Zatwierdź płatność</button>
+</form>
+{% endblock %}
