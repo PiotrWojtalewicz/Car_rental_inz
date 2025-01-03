@@ -1,13 +1,37 @@
-<!-- app/templates/app/car_rental.html -->
+{#<!-- app/templates/app/car_rental.html -->#}
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#  <h1>Rezerwacja samochodu: {{ car }}</h1>#}
+{#  <p>Wybierz daty wynajmu dla samochodu: {{ car }}</p>#}
+{##}
+{#  <form method="post">#}
+{#    {% csrf_token %}#}
+{#    {{ form.as_p }}#}
+{#    <button type="submit">Zarezerwuj</button>#}
+{#  </form>#}
+{#{% endblock %}#}
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Rezerwacja samochodu: {{ car }}</h1>
-  <p>Wybierz daty wynajmu dla samochodu: {{ car }}</p>
-
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Zarezerwuj</button>
-  </form>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+            <h1>Rezerwacja samochodu</h1>
+        </div>
+        <div class="card-body">
+            <h3 class="text-center">Samochód: <span class="text-info">{{ car }}</span></h3>
+            <p class="text-center">Wybierz daty wynajmu dla samochodu <strong>{{ car }}</strong>.</p>
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.as_p }}
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Zarezerwuj</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

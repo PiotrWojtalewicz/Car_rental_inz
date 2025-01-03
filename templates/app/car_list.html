@@ -1,45 +1,39 @@
-{% extends 'base.html' %}
-{% block content %}
-
-<h1>Lista samochodów</h1>
-<ul>
-    {% for car in cars %}
-        <li>
-            <a href="{% url 'car_detail' car.id %}">{{ car.brand }} {{ car.model }}</a>
-        </li>
-    {% endfor %}
-</ul>
-<a href="{% url 'car_create' %}">Dodaj nowy samochód</a>
-
-{% endblock %}
-{#To powyzej działa#}
-
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
+{##}
 {#<h1>Lista samochodów</h1>#}
-{##}
-{#<form method="get" action="{% url 'car_list' %}">#}
-{#    <label for="brand">Filtruj według marki:</label>#}
-{#    <select name="brand" id="brand">#}
-{#        <option value="">Wszystkie</option>#}
-{#        {% for brand, label in cars.first.BRANDS %}#}
-{#            <option value="{{ brand }}">{{ label }}</option>#}
-{#        {% endfor %}#}
-{#    </select>#}
-{#    <button type="submit">Szukaj</button>#}
-{#</form>#}
-{##}
 {#<ul>#}
 {#    {% for car in cars %}#}
 {#        <li>#}
 {#            <a href="{% url 'car_detail' car.id %}">{{ car.brand }} {{ car.model }}</a>#}
-{#            - Cena: {{ car.rental_price }} PLN#}
-{#            - Status: {% if car.is_available %}Dostępny{% else %}Niedostępny{% endif %}#}
-{#            #}
-{#            {% if car.is_available %}#}
-{#                <a href="{% url 'car_reserve' car.id %}" class="btn">Zarezerwuj</a>#}
-{#            {% endif %}#}
 {#        </li>#}
 {#    {% endfor %}#}
 {#</ul>#}
-{##}
-{#<a href="{% url 'user_reservations' %}">Moje rezerwacje</a>#}
 {#<a href="{% url 'car_create' %}">Dodaj nowy samochód</a>#}
+{##}
+{#{% endblock %}#}
+{#To powyzej działa#}
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+            <h1>Lista samochodów</h1>
+        </div>
+        <div class="card-body">
+            <div class="list-group">
+                {% for car in cars %}
+                    <a href="{% url 'car_detail' car.id %}" class="list-group-item list-group-item-action">
+                        {{ car.brand }} {{ car.model }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'car_create' %}" class="btn btn-success">Dodaj nowy samochód</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

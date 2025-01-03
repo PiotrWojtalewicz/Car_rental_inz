@@ -1,7 +1,18 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<h2>Płatność zakończona sukcesem!</h2>#}
+{#<p>Dziękujemy za dokonanie płatności.</p>#}
+{#<a href="{% url 'home' %}">Powrót do strony głównej</a>#}
+{#{% endblock %}#}
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Płatność zakończona sukcesem!</h2>
-<p>Dziękujemy za dokonanie płatności.</p>
-<a href="{% url 'home' %}">Powrót do strony głównej</a>
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm text-center">
+        <h2 class="text-success mb-4">Płatność zakończona sukcesem!</h2>
+        <p>Dziękujemy za dokonanie płatności. Twoja rezerwacja została potwierdzona.</p>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3">Powrót do panelu użytkownika</a>
+    </div>
+</div>
 {% endblock %}

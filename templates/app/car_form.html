@@ -1,10 +1,35 @@
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
+{#<h1>{{ form.instance.id|yesno:"Edycja samochodu,Dodaj nowy samochód" }}</h1>#}
+{#<form method="post">#}
+{#    {% csrf_token %}#}
+{#    {{ form.as_p }}#}
+{#    <button type="submit">Zapisz</button>#}
+{#</form>#}
+{#<a href="{% url 'car_list' %}">Powrót do listy</a>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
+
 {% block content %}
-<h1>{{ form.instance.id|yesno:"Edycja samochodu,Dodaj nowy samochód" }}</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Zapisz</button>
-</form>
-<a href="{% url 'car_list' %}">Powrót do listy</a>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+            <h1>{{ form.instance.id|yesno:"Edycja samochodu,Dodaj nowy samochód" }}</h1>
+        </div>
+        <div class="card-body">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-success">Zapisz</button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'car_list' %}" class="btn btn-secondary">Powrót do listy</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
+

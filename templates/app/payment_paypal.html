@@ -1,9 +1,25 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<h2>Płatność PayPal</h2>#}
+{#<p><strong>Kwota do zapłaty:</strong> {{ rental_data.total_cost }} PLN</p>#}
+{#<p>Aby zapłacić za rezerwację, przejdź do systemu PayPal:</p>#}
+{#<a href="https://www.paypal.com" target="_blank" class="btn btn-primary">Przejdź do PayPal</a>#}
+{#<p>Po dokonaniu płatności otrzymasz potwierdzenie na podany adres e-mail.</p>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Płatność PayPal</h2>
-<p><strong>Kwota do zapłaty:</strong> {{ rental_data.total_cost }} PLN</p>
-<p>Aby zapłacić za rezerwację, przejdź do systemu PayPal:</p>
-<a href="https://www.paypal.com" target="_blank" class="btn btn-primary">Przejdź do PayPal</a>
-<p>Po dokonaniu płatności otrzymasz potwierdzenie na podany adres e-mail.</p>
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm">
+        <h2 class="text-center mb-4">Płatność PayPal</h2>
+        <p><strong>Kwota do zapłaty:</strong> {{ rental_data.total_cost }} PLN</p>
+        <p>Aby zapłacić za rezerwację, przejdź do systemu PayPal:</p>
+        <div class="text-center">
+            <a href="https://www.paypal.com" target="_blank" class="btn btn-primary">Przejdź do PayPal</a>
+        </div>
+        <p class="mt-4">Po dokonaniu płatności otrzymasz potwierdzenie na podany adres e-mail.</p>
+    </div>
+</div>
 {% endblock %}

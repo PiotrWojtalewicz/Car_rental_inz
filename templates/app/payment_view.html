@@ -1,17 +1,39 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<h2>Podsumowanie płatności</h2>#}
+{##}
+{#<p>Samochód: {{ rental.car.model }}</p>#}
+{#<p>Data rozpoczęcia: {{ rental.start_date }}</p>#}
+{#<p>Data zakończenia: {{ rental.end_date }}</p>#}
+{#<p>Liczba dni: {{ rental.end_date|date:"d/m/Y" }} - {{ rental.start_date|date:"d/m/Y" }}</p>#}
+{#<p>Całkowity koszt: {{ total_cost }} zł</p>#}
+{##}
+{#<form method="post">#}
+{#    {% csrf_token %}#}
+{#    {{ form.as_p }}#}
+{#    <button type="submit">Zapłać</button>#}
+{#</form>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Podsumowanie płatności</h2>
-
-<p>Samochód: {{ rental.car.model }}</p>
-<p>Data rozpoczęcia: {{ rental.start_date }}</p>
-<p>Data zakończenia: {{ rental.end_date }}</p>
-<p>Liczba dni: {{ rental.end_date|date:"d/m/Y" }} - {{ rental.start_date|date:"d/m/Y" }}</p>
-<p>Całkowity koszt: {{ total_cost }} zł</p>
-
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Zapłać</button>
-</form>
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm">
+        <h2 class="text-center">Podsumowanie płatności</h2>
+        <div class="mt-4">
+            <p><strong>Samochód:</strong> {{ rental.car.brand }} {{ rental.car.model }}</p>
+            <p><strong>Data rozpoczęcia:</strong> {{ rental.start_date|date:"d/m/Y" }}</p>
+            <p><strong>Data zakończenia:</strong> {{ rental.end_date|date:"d/m/Y" }}</p>
+            <p><strong>Liczba dni:</strong> {{ rental.end_date|date:"d/m/Y" }} - {{ rental.start_date|date:"d/m/Y" }}</p>
+            <p><strong>Całkowity koszt:</strong> {{ rental.total_cost }} PLN</p>
+        </div>
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success w-100">Zapłać</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

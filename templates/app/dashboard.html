@@ -1,13 +1,36 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<h1>Witaj, {{ user.first_name }}!</h1>#}
+{#<p>To jest Twój panel użytkownika. Wybierz jedną z opcji:</p>#}
+{##}
+{#<ul>#}
+{#    <li><a href="{% url 'profile' %}">Profil</a></li>#}
+{#    <li><a href="{% url 'rental_history' %}">Historia wypożyczeń</a></li>#}
+{#    <li><a href="{% url 'available_cars' %}">Lista dostępnych samochodów</a></li>#}
+{#<a href="{% url 'add_car' %}" class="btn btn-primary">Dodaj nowy samochód</a>#}
+{#</ul>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Witaj, {{ user.first_name }}!</h1>
-<p>To jest Twój panel użytkownika. Wybierz jedną z opcji:</p>
-
-<ul>
-    <li><a href="{% url 'profile' %}">Profil</a></li>
-    <li><a href="{% url 'rental_history' %}">Historia wypożyczeń</a></li>
-    <li><a href="{% url 'available_cars' %}">Lista dostępnych samochodów</a></li>
-<a href="{% url 'add_car' %}" class="btn btn-primary">Dodaj nowy samochód</a>
-</ul>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+            <h1>Witaj, {{ user.first_name }}!</h1>
+        </div>
+        <div class="card-body">
+            <p class="text-center">To jest Twój panel użytkownika. Wybierz jedną z opcji:</p>
+            <div class="list-group">
+                <a href="{% url 'profile' %}" class="list-group-item list-group-item-action">Profil</a>
+                <a href="{% url 'rental_history' %}" class="list-group-item list-group-item-action">Historia wypożyczeń</a>
+                <a href="{% url 'available_cars' %}" class="list-group-item list-group-item-action">Lista dostępnych samochodów</a>
+            </div>
+            <div class="mt-4 text-center">
+                <a href="{% url 'add_car' %}" class="btn btn-success">Dodaj nowy samochód</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

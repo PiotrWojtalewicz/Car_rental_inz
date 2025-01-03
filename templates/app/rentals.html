@@ -1,11 +1,96 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#    <h1>Historia wypożyczeń</h1>#}
+{##}
+{#    {% if rentals %}#}
+{#        <table>#}
+{#            <thead>#}
+{#                <tr>#}
+{#                    <th>Marka</th>#}
+{#                    <th>Model</th>#}
+{#                    <th>Rok</th>#}
+{#                    <th>Data wypożyczenia</th>#}
+{#                    <th>Data zwrotu</th>#}
+{#                    <th>Cena</th>#}
+{#                    <th>Status</th>#}
+{#                </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#                {% for rental in rentals %}#}
+{#                    <tr>#}
+{#                        <td>{{ rental.car.brand }}</td>#}
+{#                        <td>{{ rental.car.model }}</td>#}
+{#                        <td>{{ rental.car.year }}</td>#}
+{#                        <td>{{ rental.start_date }}</td>#}
+{#                        <td>{{ rental.end_date }}</td>#}
+{#                        <td>{{ rental.price }}</td>#}
+{#                        <td>{% if rental.is_active %} Aktywne {% else %} Zakończone {% endif %}</td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+{#            </tbody>#}
+{#        </table>#}
+{#    {% else %}#}
+{#        <p>Nie masz jeszcze żadnej historii wypożyczeń.</p>#}
+{#    {% endif %}#}
+{#{% endblock %}#}
+
+
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<div class="container mt-4">#}
+{#    <h1 class="mb-4">Historia wypożyczeń</h1>#}
+{##}
+{#    {% if rentals %}#}
+{#        <table class="table table-striped">#}
+{#            <thead class="thead-dark">#}
+{#                <tr>#}
+{#                    <th>Marka</th>#}
+{#                    <th>Model</th>#}
+{#                    <th>Rok</th>#}
+{#                    <th>Data wypożyczenia</th>#}
+{#                    <th>Data zwrotu</th>#}
+{#                    <th>Cena</th>#}
+{#                    <th>Status</th>#}
+{#                </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#                {% for rental in rentals %}#}
+{#                    <tr>#}
+{#                        <td>{{ rental.car.brand }}</td>#}
+{#                        <td>{{ rental.car.model }}</td>#}
+{#                        <td>{{ rental.car.year }}</td>#}
+{#                        <td>{{ rental.start_date }}</td>#}
+{#                        <td>{{ rental.end_date }}</td>#}
+{#                        <td>{{ rental.total_cost }} PLN</td>#}
+{#                        <td>#}
+{#                            {% if rental.status == 'active' %}#}
+{#                                <span class="badge bg-success">Aktywne</span>#}
+{#                            {% elif rental.status == 'completed' %}#}
+{#                                <span class="badge bg-secondary">Zakończone</span>#}
+{#                            {% else %}#}
+{#                                <span class="badge bg-danger">Anulowane</span>#}
+{#                            {% endif %}#}
+{#                        </td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+{#            </tbody>#}
+{#        </table>#}
+{#    {% else %}#}
+{#        <p class="text-muted">Nie masz jeszcze żadnej historii wypożyczeń.</p>#}
+{#    {% endif %}#}
+{#</div>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Historia wypożyczeń</h1>
-
+<div class="container my-4">
+    <h2 class="mb-4">Historia wypożyczeń</h2>
     {% if rentals %}
-        <table>
-            <thead>
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
                 <tr>
                     <th>Marka</th>
                     <th>Model</th>
@@ -24,13 +109,24 @@
                         <td>{{ rental.car.year }}</td>
                         <td>{{ rental.start_date }}</td>
                         <td>{{ rental.end_date }}</td>
-                        <td>{{ rental.price }}</td>
-                        <td>{% if rental.is_active %} Aktywne {% else %} Zakończone {% endif %}</td>
+                        <td>{{ rental.total_cost }} PLN</td>
+                        <td>
+                            {% if rental.status == 'active' %}
+                                <span class="badge bg-success">Aktywne</span>
+                                <a href="{% url 'extend_rental' rental.id %}" class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="tooltip" title="Przedłuż aktualne wypożyczenie">Przedłuż wypożyczenie</a>
+                                <a href="{% url 'extend_rental' rental.id %}" class="btn btn-sm btn-outline-primary ms-2">Przedłuż wypożyczenie</a>
+                            {% else %}
+                                <span class="badge bg-secondary">Zakończone</span>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p>Nie masz jeszcze żadnej historii wypożyczeń.</p>
+        <div class="alert alert-info" role="alert">
+            Nie masz jeszcze żadnej historii wypożyczeń.
+        </div>
     {% endif %}
+</div>
 {% endblock %}

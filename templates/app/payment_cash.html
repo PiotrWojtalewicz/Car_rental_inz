@@ -1,10 +1,27 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<h2>Płatność gotówką</h2>#}
+{#<p>Dziękujemy za skorzystanie z naszych usług!</p>#}
+{#<p>Kwota do zapłaty: {{ rental_data.total_cost }} PLN</p>#}
+{#<p>Prosimy o dokonanie płatności w momencie odbioru samochodu.</p>#}
+{#<p>Potwierdzenie rezerwacji zostało wysłane na Twój adres e-mail.</p>#}
+{#<p>Szerokiej drogi i miłego użytkowania samochodu!</p>#}
+{#{% endblock %}#}
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Płatność gotówką</h2>
-<p>Dziękujemy za skorzystanie z naszych usług!</p>
-<p>Kwota do zapłaty: {{ rental_data.total_cost }} PLN</p>
-<p>Prosimy o dokonanie płatności w momencie odbioru samochodu.</p>
-<p>Potwierdzenie rezerwacji zostało wysłane na Twój adres e-mail.</p>
-<p>Szerokiej drogi i miłego użytkowania samochodu!</p>
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm">
+        <h2 class="text-center mb-4">Płatność gotówką</h2>
+        <p class="text-center"><strong>Dziękujemy za skorzystanie z naszych usług!</strong></p>
+        <hr>
+        <p><strong>Kwota do zapłaty:</strong> {{ rental_data.total_cost }} PLN</p>
+        <p>Prosimy o dokonanie płatności w momencie odbioru samochodu.</p>
+        <p>Potwierdzenie rezerwacji zostało wysłane na Twój adres e-mail.</p>
+        <div class="alert alert-success text-center mt-3">
+            <strong>Szerokiej drogi i miłego użytkowania samochodu!</strong>
+        </div>
+    </div>
+</div>
 {% endblock %}

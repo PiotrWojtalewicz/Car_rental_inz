@@ -1,15 +1,37 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<h1>Profil użytkownika</h1>#}
+{#<p>Witaj, {{ user.first_name }} {{ user.last_name }}!</p>#}
+{##}
+{#<ul>#}
+{#    <li><strong>Imię:</strong> {{ user.first_name }}</li>#}
+{#    <li><strong>Nazwisko:</strong> {{ user.last_name }}</li>#}
+{#    <li><strong>Email:</strong> {{ user.email }}</li>#}
+{#    <li><strong>Data dołączenia:</strong> {{ user.date_joined|date:"d-m-Y" }}</li>#}
+{#</ul>#}
+{#<a href="{% url 'edit_profile' %}">Edytuj profil</a>#}
+{#<p><a href="{% url 'dashboard' %}">Powrót do panelu</a></p>#}
+{#{% endblock %}#}
+
+
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Profil użytkownika</h1>
-<p>Witaj, {{ user.first_name }} {{ user.last_name }}!</p>
-
-<ul>
-    <li><strong>Imię:</strong> {{ user.first_name }}</li>
-    <li><strong>Nazwisko:</strong> {{ user.last_name }}</li>
-    <li><strong>Email:</strong> {{ user.email }}</li>
-    <li><strong>Data dołączenia:</strong> {{ user.date_joined|date:"d-m-Y" }}</li>
-</ul>
-<a href="{% url 'edit_profile' %}">Edytuj profil</a>
-<p><a href="{% url 'dashboard' %}">Powrót do panelu</a></p>
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm">
+        <h1 class="text-center">Profil użytkownika</h1>
+        <p class="text-center">Witaj, <strong>{{ user.first_name }} {{ user.last_name }}</strong>!</p>
+        <ul class="list-group mt-4">
+            <li class="list-group-item"><strong>Imię:</strong> {{ user.first_name }}</li>
+            <li class="list-group-item"><strong>Nazwisko:</strong> {{ user.last_name }}</li>
+            <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+            <li class="list-group-item"><strong>Data dołączenia:</strong> {{ user.date_joined|date:"d-m-Y" }}</li>
+        </ul>
+        <div class="text-center mt-4">
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edytuj profil</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Powrót do panelu</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,23 +1,60 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<h2>Płatność kartą</h2>#}
+{#<p>Kwota do zapłaty: {{ rental_data.total_cost }} PLN</p>#}
+{##}
+{#<form method="POST">#}
+{#  {% csrf_token %}#}
+{#  <label for="card_number">Numer karty:</label>#}
+{#  <input type="text" id="card_number" name="card_number" required><br>#}
+{##}
+{#  <label for="card_holder">Imię i nazwisko posiadacza:</label>#}
+{#  <input type="text" id="card_holder" name="card_holder" required><br>#}
+{##}
+{#  <label for="expiry_date">Data ważności:</label>#}
+{#  <input type="month" id="expiry_date" name="expiry_date" required><br>#}
+{##}
+{#  <label for="csv_code">Kod CSV:</label>#}
+{#  <input type="text" id="csv_code" name="csv_code" required><br>#}
+{##}
+{#  <button type="submit">Zatwierdź płatność</button>#}
+{#</form>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Płatność kartą</h2>
-<p>Kwota do zapłaty: {{ rental_data.total_cost }} PLN</p>
-
-<form method="POST">
-  {% csrf_token %}
-  <label for="card_number">Numer karty:</label>
-  <input type="text" id="card_number" name="card_number" required><br>
-
-  <label for="card_holder">Imię i nazwisko posiadacza:</label>
-  <input type="text" id="card_holder" name="card_holder" required><br>
-
-  <label for="expiry_date">Data ważności:</label>
-  <input type="month" id="expiry_date" name="expiry_date" required><br>
-
-  <label for="csv_code">Kod CSV:</label>
-  <input type="text" id="csv_code" name="csv_code" required><br>
-
-  <button type="submit">Zatwierdź płatność</button>
-</form>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Płatność kartą</h2>
+    <div class="card p-4 shadow-sm">
+        <p><strong>Kwota do zapłaty:</strong> {{ rental_data.total_cost }} PLN</p>
+        <form method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="card_number" class="form-label">Numer karty:</label>
+                <input type="text" id="card_number" name="card_number" class="form-control" required>
+                <div class="invalid-feedback">Proszę podać numer karty.</div>
+            </div>
+            <div class="mb-3">
+                <label for="card_holder" class="form-label">Imię i nazwisko posiadacza:</label>
+                <input type="text" id="card_holder" name="card_holder" class="form-control" required>
+                <div class="invalid-feedback">Proszę podać imię i nazwisko posiadacza karty.</div>
+            </div>
+            <div class="mb-3">
+                <label for="expiry_date" class="form-label">Data ważności:</label>
+                <input type="month" id="expiry_date" name="expiry_date" class="form-control" required>
+                <div class="invalid-feedback">Proszę podać datę ważności karty.</div>
+            </div>
+            <div class="mb-3">
+                <label for="csv_code" class="form-label">Kod CSV:</label>
+                <input type="text" id="csv_code" name="csv_code" class="form-control" required>
+                <div class="invalid-feedback">Proszę podać kod CSV.</div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Zatwierdź płatność</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

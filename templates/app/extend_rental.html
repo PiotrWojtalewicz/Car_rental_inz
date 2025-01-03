@@ -1,0 +1,66 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<div class="container my-4">#}
+{#    <h2 class="mb-4">Przedłuż wypożyczenie samochodu</h2>#}
+{#    <div class="card shadow-sm p-4">#}
+{#        <h4>{{ car.brand }} {{ car.model }}</h4>#}
+{#        <p><strong>Obecna data zakończenia:</strong> {{ rental.end_date }}</p>#}
+{#        <p><strong>Cena za dzień:</strong> {{ additional_cost_per_day }} PLN</p>#}
+{#        <p><strong>Opłata serwisowa:</strong> 20 PLN</p>#}
+{#        <form method="POST" class="mt-4">#}
+{#            {% csrf_token %}#}
+{#            <div class="mb-3">#}
+{#                <label for="additional_days" class="form-label">Dodatkowe dni:</label>#}
+{#                <input type="number" class="form-control" id="additional_days" name="additional_days" min="1" required>#}
+{#            </div>#}
+{#            <button type="submit" class="btn btn-primary">Przedłuż wypożyczenie</button>#}
+{#        </form>#}
+{#    </div>#}
+{#</div>#}
+{#{% endblock %}#}
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center">Przedłuż wypożyczenie samochodu</h2>
+
+  <div class="card my-4">
+    <div class="card-body">
+      <h5 class="card-title">{{ rental.car.brand }} {{ rental.car.model }}</h5>
+      <p class="card-text"><strong>Obecna data zakończenia:</strong> {{ rental.end_date|date:"d-m-Y" }}</p>
+      <p class="card-text"><strong>Cena za dzień:</strong> {{ rental.car.rental_price }} PLN</p>
+      <p class="card-text"><strong>Opłata serwisowa:</strong> 20 PLN</p>
+    </div>
+  </div>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="extra_days" class="form-label"><strong>Dodatkowe dni:</strong></label>
+      <input type="number" id="extra_days" name="extra_days" class="form-control" min="1" required>
+    </div>
+
+    <h3>Wybierz metodę płatności:</h3>
+    <div class="form-check">
+      <input type="radio" class="form-check-input" id="payment_card" name="payment_method" value="credit_card" required>
+      <label class="form-check-label" for="payment_card">Płatność kartą kredytową</label>
+    </div>
+
+    <div class="form-check">
+      <input type="radio" class="form-check-input" id="payment_transfer" name="payment_method" value="bank_transfer" required>
+      <label class="form-check-label" for="payment_transfer">Płatność przelewem bankowym</label>
+    </div>
+
+    <div class="form-check">
+      <input type="radio" class="form-check-input" id="payment_paypal" name="payment_method" value="paypal" required>
+      <label class="form-check-label" for="payment_paypal">Płatność PayPal</label>
+    </div>
+
+    <p class="text-danger mt-3">Brak możliwości płatności gotówką.</p>
+
+    <button type="submit" class="btn btn-primary mt-3">Przedłuż wypożyczenie</button>
+  </form>
+</div>
+{% endblock %}

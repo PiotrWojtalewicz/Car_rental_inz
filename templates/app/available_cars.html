@@ -1,20 +1,47 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<h1>Dostępne samochody do wynajęcia</h1>#}
+{##}
+{#{% if cars %}#}
+{#    <ul>#}
+{#        {% for car in cars %}#}
+{#            <li>#}
+{#                {{ car.brand }} {{ car.model }} - {{ car.year }}#}
+{#                <a href="{% url 'car_detail' car.id %}">Szczegóły</a>#}
+{#            </li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{#{% else %}#}
+{#    <p>Brak dostępnych samochodów w tej chwili.</p>#}
+{#{% endif %}#}
+{##}
+{#<p><a href="{% url 'dashboard' %}">Powrót do panelu użytkownika</a></p>#}
+{#{% endblock %}#}
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Dostępne samochody do wynajęcia</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Dostępne samochody do wynajęcia</h1>
 
-{% if cars %}
-    <ul>
-        {% for car in cars %}
-            <li>
-                {{ car.brand }} {{ car.model }} - {{ car.year }}
-                <a href="{% url 'car_detail' car.id %}">Szczegóły</a>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Brak dostępnych samochodów w tej chwili.</p>
-{% endif %}
+    {% if cars %}
+        <div class="list-group">
+            {% for car in cars %}
+                <a href="{% url 'car_detail' car.id %}" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ car.brand }} {{ car.model }}</h5>
+                        <small class="text-muted">{{ car.year }}</small>
+                    </div>
+                    <p class="mb-1">Kliknij, aby zobaczyć szczegóły.</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center mt-3">Brak dostępnych samochodów w tej chwili.</p>
+    {% endif %}
 
-<p><a href="{% url 'dashboard' %}">Powrót do panelu użytkownika</a></p>
+    <div class="text-center mt-4">
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Powrót do panelu użytkownika</a>
+    </div>
+</div>
 {% endblock %}

@@ -1,24 +1,45 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#    <h1>Witaj na stronie!</h1>#}
+{#    <p>Wybierz jedną z opcji:</p>#}
+{##}
+{#    <div>#}
+{#        <a href="{% url 'login' %}">#}
+{#            <button>Zaloguj się</button>#}
+{#        </a>#}
+{#    </div>#}
+{##}
+{#    <div>#}
+{#        <a href="{% url 'register' %}">#}
+{#            <button>Zarejestruj się</button>#}
+{#        </a>#}
+{#    </div>#}
+{##}
+{#    <div>#}
+{#        <a href="{% url 'car_list' %}">#}
+{#            <button>Przeglądaj aktywne samochody</button>#}
+{#        </a>#}
+{#    </div>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Witaj na stronie!</h1>
-    <p>Wybierz jedną z opcji:</p>
+<div class="container mt-5 text-center">
+    <h1 class="mb-4">Witaj na stronie!</h1>
+    <p class="mb-4">Wybierz jedną z opcji:</p>
 
-    <div>
-        <a href="{% url 'login' %}">
-            <button>Zaloguj się</button>
-        </a>
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'login' %}" class="btn btn-primary btn-block btn-lg">Zaloguj się</a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'register' %}" class="btn btn-success btn-block btn-lg">Zarejestruj się</a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'car_list' %}" class="btn btn-info btn-block btn-lg">Przeglądaj aktywne samochody</a>
+        </div>
     </div>
-
-    <div>
-        <a href="{% url 'register' %}">
-            <button>Zarejestruj się</button>
-        </a>
-    </div>
-
-    <div>
-        <a href="{% url 'car_list' %}">
-            <button>Przeglądaj aktywne samochody</button>
-        </a>
-    </div>
+</div>
 {% endblock %}

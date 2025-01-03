@@ -1,21 +1,159 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#  <h1>Historia wypożyczeń</h1>#}
+{##}
+{#  {% if rentals %}#}
+{#    <ul>#}
+{#      {% for rental in rentals %}#}
+{#        <li>#}
+{#          <strong>Samochód:</strong> {{ rental.car.brand }} {{ rental.car.model }}<br>#}
+{#          <strong>Data wypożyczenia:</strong> {{ rental.start_date }}<br>#}
+{#          <strong>Data zwrotu:</strong> {{ rental.end_date }}<br>#}
+{#          <strong>Status:</strong> {{ rental.get_status_display }}<br>#}
+{#          <strong>Całkowity koszt:</strong> {{ rental.total_cost }} PLN<br>#}
+{#        </li>#}
+{#      {% endfor %}#}
+{#    </ul>#}
+{#  {% else %}#}
+{#    <p>Nie masz jeszcze historii wypożyczeń.</p>#}
+{#  {% endif %}#}
+{#{% endblock %}#}
+
+
+
+
+
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<h1>Historia wypożyczeń</h1>#}
+{##}
+{#<h2>Aktywne wypożyczenia</h2>#}
+{#{% if active_rentals %}#}
+{#    <table>#}
+{#        <thead>#}
+{#            <tr>#}
+{#                <th>Marka</th>#}
+{#                <th>Model</th>#}
+{#                <th>Data wypożyczenia</th>#}
+{#                <th>Data zwrotu</th>#}
+{#                <th>Cena</th>#}
+{#                <th>Status</th>#}
+{#            </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#            {% for rental in active_rentals %}#}
+{#                <tr>#}
+{#                    <td>{{ rental.car.brand }}</td>#}
+{#                    <td>{{ rental.car.model }}</td>#}
+{#                    <td>{{ rental.start_date }}</td>#}
+{#                    <td>{{ rental.end_date }}</td>#}
+{#                    <td>{{ rental.total_cost }} PLN</td>#}
+{#                    <td>{{ rental.get_status_display }}</td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+{#{% else %}#}
+{#    <p>Nie masz aktywnych wypożyczeń.</p>#}
+{#{% endif %}#}
+{##}
+{#<h2>Zakończone wypożyczenia</h2>#}
+{#{% if completed_rentals %}#}
+{#    <table>#}
+{#        <thead>#}
+{#            <tr>#}
+{#                <th>Marka</th>#}
+{#                <th>Model</th>#}
+{#                <th>Data wypożyczenia</th>#}
+{#                <th>Data zwrotu</th>#}
+{#                <th>Cena</th>#}
+{#                <th>Status</th>#}
+{#            </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#            {% for rental in completed_rentals %}#}
+{#                <tr>#}
+{#                    <td>{{ rental.car.brand }}</td>#}
+{#                    <td>{{ rental.car.model }}</td>#}
+{#                    <td>{{ rental.start_date }}</td>#}
+{#                    <td>{{ rental.end_date }}</td>#}
+{#                    <td>{{ rental.total_cost }} PLN</td>#}
+{#                    <td>{{ rental.get_status_display }}</td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+{#{% else %}#}
+{#    <p>Nie masz zakończonych wypożyczeń.</p>#}
+{#{% endif %}#}
+{#{% endblock %}#}
+
+
+
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Historia wypożyczeń</h1>
+<h1>Historia wypożyczeń</h1>
 
-  {% if rentals %}
-    <ul>
-      {% for rental in rentals %}
-        <li>
-          <strong>Samochód:</strong> {{ rental.car.brand }} {{ rental.car.model }}<br>
-          <strong>Data wypożyczenia:</strong> {{ rental.start_date }}<br>
-          <strong>Data zwrotu:</strong> {{ rental.end_date }}<br>
-          <strong>Status:</strong> {{ rental.get_status_display }}<br>
-          <strong>Całkowity koszt:</strong> {{ rental.total_cost }} PLN<br>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>Nie masz jeszcze historii wypożyczeń.</p>
-  {% endif %}
+<h2>Aktywne wypożyczenia</h2>
+{% if active_rentals %}
+    <table>
+        <thead>
+            <tr>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Data wypożyczenia</th>
+                <th>Data zwrotu</th>
+                <th>Cena</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rental in active_rentals %}
+                <tr>
+                    <td>{{ rental.car.brand }}</td>
+                    <td>{{ rental.car.model }}</td>
+                    <td>{{ rental.start_date }}</td>
+                    <td>{{ rental.end_date }}</td>
+                    <td>{{ rental.total_cost }} PLN</td>
+                    <td>{{ rental.get_status_display }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nie masz aktywnych wypożyczeń.</p>
+{% endif %}
+
+<h2>Zakończone wypożyczenia</h2>
+{% if completed_rentals %}
+    <table>
+        <thead>
+            <tr>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Data wypożyczenia</th>
+                <th>Data zwrotu</th>
+                <th>Cena</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rental in completed_rentals %}
+                <tr>
+                    <td>{{ rental.car.brand }}</td>
+                    <td>{{ rental.car.model }}</td>
+                    <td>{{ rental.start_date }}</td>
+                    <td>{{ rental.end_date }}</td>
+                    <td>{{ rental.total_cost }} PLN</td>
+                    <td>{{ rental.get_status_display }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nie masz zakończonych wypożyczeń.</p>
+{% endif %}
 {% endblock %}

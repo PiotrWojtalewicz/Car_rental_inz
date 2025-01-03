@@ -13,20 +13,59 @@
 {#<a href="{% url 'car_list' %}">Powrót do listy</a>#}
 {#{% endblock %}#}
 
-{% extends 'base.html' %}
-{% block content %}
-    <h1>{{ car.brand }} {{ car.model }}</h1>
-    <p>Rok produkcji: {{ car.year }}</p>
-    <p>Cena wypożyczenia: {{ car.rental_price }}</p>
-    <p>Dostępność: {% if car.is_available %} Dostępny {% else %} Niedostępny {% endif %}</p>
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
+{#    <h1>{{ car.brand }} {{ car.model }}</h1>#}
+{#    <p>Rok produkcji: {{ car.year }}</p>#}
+{#    <p>Cena wypożyczenia: {{ car.rental_price }}</p>#}
+{#    <p>Dostępność: {% if car.is_available %} Dostępny {% else %} Niedostępny {% endif %}</p>#}
+{##}
+{#    {% if car.is_available %}#}
+{#        <form method="get" action="{% url 'rent_car' car.id %}">#}
+{#            <label for="date">Wybierz datę rozpoczęcia wynajmu:</label>#}
+{#            <input type="date" name="date" id="date">#}
+{#            <button type="submit">Zarezerwuj</button>#}
+{#        </form>#}
+{#    {% else %}#}
+{#        <p>Samochód jest już wypożyczony w wybranym terminie.</p>#}
+{#    {% endif %}#}
+{#{% endblock %}#}
 
-    {% if car.is_available %}
-        <form method="get" action="{% url 'rent_car' car.id %}">
-            <label for="date">Wybierz datę rozpoczęcia wynajmu:</label>
-            <input type="date" name="date" id="date">
-            <button type="submit">Zarezerwuj</button>
-        </form>
-    {% else %}
-        <p>Samochód jest już wypożyczony w wybranym terminie.</p>
-    {% endif %}
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header text-center bg-primary text-white">
+            <h1>{{ car.brand }} {{ car.model }}</h1>
+        </div>
+        <div class="card-body">
+            <p><strong>Rok produkcji:</strong> {{ car.year }}</p>
+            <p><strong>Cena wypożyczenia:</strong> {{ car.rental_price }} PLN</p>
+            <p>
+                <strong>Dostępność:</strong>
+                {% if car.is_available %}
+                    <span class="text-success">Dostępny</span>
+                {% else %}
+                    <span class="text-danger">Niedostępny</span>
+                {% endif %}
+            </p>
+
+            {% if car.is_available %}
+                <form method="get" action="{% url 'rent_car' car.id %}" class="mt-4">
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Wybierz datę rozpoczęcia wynajmu:</label>
+                        <input type="date" name="date" id="date" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Zarezerwuj</button>
+                </form>
+            {% else %}
+                <p class="text-warning mt-4">Samochód jest już wypożyczony w wybranym terminie.</p>
+            {% endif %}
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'car_list' %}" class="btn btn-secondary">Powrót do listy samochodów</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

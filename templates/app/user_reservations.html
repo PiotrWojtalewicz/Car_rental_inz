@@ -1,20 +1,48 @@
-<!-- templates/app/register.html -->
+{#<!-- templates/app/register.html -->#}
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Moje rezerwacje</title>#}
+{#</head>#}
+{#<body>#}
+{#    <h1>Moje rezerwacje</h1>#}
+{#    <ul>#}
+{#        {% for reservation in reservations %}#}
+{#            <li>{{ reservation.car.brand }} {{ reservation.car.model }} - zarezerwowane: {{ reservation.reservation_date }}</li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{#    <a href="{% url 'car_list' %}">Powrót do listy pojazdów</a>#}
+{#    <a href="{% url 'logout' %}">Wyloguj</a>#}
+{#</body>#}
+{#</html>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
+
 {% block content %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Moje rezerwacje</title>
-</head>
-<body>
-    <h1>Moje rezerwacje</h1>
-    <ul>
-        {% for reservation in reservations %}
-            <li>{{ reservation.car.brand }} {{ reservation.car.model }} - zarezerwowane: {{ reservation.reservation_date }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'car_list' %}">Powrót do listy pojazdów</a>
-    <a href="{% url 'logout' %}">Wyloguj</a>
-</body>
-</html>
+<div class="container my-5">
+    <h1 class="mb-4">Moje rezerwacje</h1>
+
+    {% if reservations %}
+        <ul class="list-group">
+            {% for reservation in reservations %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ reservation.car.brand }} {{ reservation.car.model }}</strong><br>
+                        <small>Zarezerwowane: {{ reservation.reservation_date }}</small>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="alert alert-warning">Nie masz żadnych aktywnych rezerwacji.</p>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{% url 'car_list' %}" class="btn btn-primary">Powrót do listy pojazdów</a>
+        <a href="{% url 'logout' %}" class="btn btn-danger">Wyloguj</a>
+    </div>
+</div>
 {% endblock %}

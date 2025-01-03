@@ -1,11 +1,35 @@
-<!-- app/templates/app/edit_profile.html -->
+{#<!-- app/templates/app/edit_profile.html -->#}
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<h2>Edycja profilu</h2>#}
+{#<form method="POST">#}
+{#    {% csrf_token %}#}
+{#    {{ form.as_p }}#}
+{#    <button type="submit">Zapisz zmiany</button>#}
+{#</form>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Edycja profilu</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Zapisz zmiany</button>
-</form>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-info text-white text-center">
+            <h2>Edycja profilu</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                    <a href="{% url 'profile' %}" class="btn btn-secondary">Anuluj</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

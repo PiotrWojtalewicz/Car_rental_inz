@@ -1,13 +1,33 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#    <h2>Rejestracja</h2>#}
+{##}
+{#    <p>Hasło musi mieć co najmniej 4 znaki, w tym jedną wielką literę.</p> <!-- Informacja o haśle -->#}
+{##}
+{#    <form method="post">#}
+{#        {% csrf_token %}#}
+{#        {{ form.as_p }}#}
+{#        <button type="submit">Zarejestruj się</button>#}
+{#    </form>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Rejestracja</h2>
-
-    <p>Hasło musi mieć co najmniej 4 znaki, w tym jedną wielką literę.</p> <!-- Informacja o haśle -->
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Zarejestruj się</button>
-    </form>
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm">
+        <h2 class="text-center">Rejestracja</h2>
+        <p class="text-muted text-center">
+            Hasło musi mieć co najmniej 4 znaki, w tym jedną wielką literę.
+        </p> <!-- Informacja o haśle -->
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Zarejestruj się</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

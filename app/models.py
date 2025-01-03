@@ -139,3 +139,11 @@ class Rental(models.Model):
             status='active'
         )
         return conflicting_rentals.exists()
+
+    def update_status(self):
+        """
+        Aktualizuje status wypożyczenia na podstawie daty zakończenia.
+        """
+        if self.status == 'active' and self.end_date < timezone.now().date():
+            self.status = 'completed'
+            self.save()

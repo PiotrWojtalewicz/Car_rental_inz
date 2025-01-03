@@ -1,10 +1,30 @@
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
+{#<h1>Czy na pewno chcesz usunąć samochód?</h1>#}
+{#<p>{{ car }}</p>#}
+{#<form method="post">#}
+{#    {% csrf_token %}#}
+{#    <button type="submit">Usuń</button>#}
+{#</form>#}
+{#<a href="{% url 'car_list' %}">Anuluj</a>#}
+{#{% endblock %}#}
 {% extends 'base.html' %}
+
 {% block content %}
-<h1>Czy na pewno chcesz usunąć samochód?</h1>
-<p>{{ car }}</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Usuń</button>
-</form>
-<a href="{% url 'car_list' %}">Anuluj</a>
+<div class="container mt-5">
+    <h1 class="text-center text-danger">Potwierdzenie usunięcia samochodu</h1>
+
+    <p class="text-center mt-4">
+        Czy na pewno chcesz usunąć samochód
+        <strong>{{ car.brand }} {{ car.model }} ({{ car.year }})</strong>?
+    </p>
+
+    <div class="d-flex justify-content-center mt-4">
+        <form method="POST" class="me-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Usuń</button>
+        </form>
+        <a href="{% url 'car_list' %}" class="btn btn-secondary">Anuluj</a>
+    </div>
+</div>
 {% endblock %}
