@@ -114,7 +114,7 @@
                             {% if rental.status == 'active' %}
                                 <span class="badge bg-success">Aktywne</span>
                                 <a href="{% url 'extend_rental' rental.id %}" class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="tooltip" title="Przedłuż aktualne wypożyczenie">Przedłuż wypożyczenie</a>
-                                <a href="{% url 'extend_rental' rental.id %}" class="btn btn-sm btn-outline-primary ms-2">Przedłuż wypożyczenie</a>
+{#                                <a href="{% url 'extend_rental' rental.id %}" class="btn btn-sm btn-outline-primary ms-2">Przedłuż wypożyczenie</a>#}
                             {% else %}
                                 <span class="badge bg-secondary">Zakończone</span>
                             {% endif %}
