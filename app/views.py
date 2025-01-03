@@ -687,17 +687,54 @@ def payment_cash(request, car_id):
 #
 #     return render(request, 'app/extend_rental.html', {'rental': rental})
 
+# @login_required
+# def extend_rental(request, rental_id):
+#     rental = get_object_or_404(Rental, id=rental_id)
+#
+#     if request.method == 'POST':
+#         try:
+#             extra_days = int(request.POST.get('extra_days', 0))
+#         except ValueError:
+#             messages.error(request, "Podaj poprawną liczbę dni.")
+#             return redirect('extend_rental', rental_id=rental_id)
+#         messages.success(request, "Pomyślnie przedłużono wypożyczenie samochodu!")
+#         payment_method = request.POST.get('payment_method')
+#
+#         if extra_days <= 0 or not payment_method:
+#             messages.error(request, "Proszę wybrać poprawną liczbę dni i metodę płatności.")
+#             return redirect('extend_rental', rental_id=rental_id)
+#
+#         # Oblicz nową datę zakończenia i koszt
+#         new_end_date = rental.end_date + timedelta(days=extra_days)
+#         additional_cost = float(rental.car.rental_price * extra_days) + 20.0  # Konwersja Decimal na float + opłata serwisowa
+#
+#         # Przechowaj dane w sesji
+#         request.session['extend_rental_data'] = {
+#             'rental_id': rental.id,
+#             'extra_days': extra_days,
+#             'new_end_date': new_end_date.strftime('%Y-%m-%d'),
+#             'additional_cost': additional_cost,  # Przechowywanie jako float
+#             'payment_method': payment_method,
+#         }
+#
+#         # Przekierowanie na odpowiednią stronę płatności
+#         if payment_method == 'credit_card':
+#             return redirect('payment_card', car_id=rental.car.id)
+#         elif payment_method == 'bank_transfer':
+#             return redirect('payment_bank', car_id=rental.car.id)
+#         elif payment_method == 'paypal':
+#             return redirect('payment_paypal', car_id=rental.car.id)
+#
+#     return render(request, 'app/extend_rental.html', {'rental': rental})
+
+from decimal import Decimal
+
 @login_required
 def extend_rental(request, rental_id):
     rental = get_object_or_404(Rental, id=rental_id)
 
     if request.method == 'POST':
-        try:
-            extra_days = int(request.POST.get('extra_days', 0))
-        except ValueError:
-            messages.error(request, "Podaj poprawną liczbę dni.")
-            return redirect('extend_rental', rental_id=rental_id)
-        messages.success(request, "Pomyślnie przedłużono wypożyczenie samochodu!")
+        extra_days = int(request.POST.get('extra_days', 0))
         payment_method = request.POST.get('payment_method')
 
         if extra_days <= 0 or not payment_method:
@@ -706,14 +743,14 @@ def extend_rental(request, rental_id):
 
         # Oblicz nową datę zakończenia i koszt
         new_end_date = rental.end_date + timedelta(days=extra_days)
-        additional_cost = float(rental.car.rental_price * extra_days) + 20.0  # Konwersja Decimal na float + opłata serwisowa
+        additional_cost = Decimal(extra_days) * rental.car.rental_price + Decimal('20')  # 20 PLN opłata serwisowa
 
         # Przechowaj dane w sesji
         request.session['extend_rental_data'] = {
             'rental_id': rental.id,
             'extra_days': extra_days,
             'new_end_date': new_end_date.strftime('%Y-%m-%d'),
-            'additional_cost': additional_cost,  # Przechowywanie jako float
+            'additional_cost': str(additional_cost),  # Konwersja na string, aby uniknąć problemów z serializacją
             'payment_method': payment_method,
         }
 
@@ -726,34 +763,3 @@ def extend_rental(request, rental_id):
             return redirect('payment_paypal', car_id=rental.car.id)
 
     return render(request, 'app/extend_rental.html', {'rental': rental})
-
-# @login_required
-# def extend_rental(request, rental_id):
-#     rental = get_object_or_404(Rental, id=rental_id)
-#
-#     if request.method == 'POST':
-#         try:
-#             extra_days = int(request.POST.get('extra_days', 0))
-#         except ValueError:
-#             messages.error(request, "Podaj poprawną liczbę dni.")
-#             return redirect('extend_rental', rental_id=rental_id)
-#
-#         payment_method = request.POST.get('payment_method')
-#
-#         if extra_days <= 0 or not payment_method:
-#             messages.error(request, "Proszę wybrać poprawną liczbę dni i metodę płatności.")
-#             return redirect('extend_rental', rental_id=rental_id)
-#
-#         # Oblicz nową datę zakończenia i koszt
-#         new_end_date = rental.end_date + timedelta(days=extra_days)
-#         additional_cost = float(rental.car.rental_price) * Decimal(extra_days) + Decimal(20)  # Opłata serwisowa
-#
-#         # # Zapisz zmiany w obiekcie `Rental`
-#         # rental.end_date = new_end_date
-#         # rental.total_cost += additional_cost
-#         # rental.save()
-#
-#         messages.success(request, "Wypożyczenie zostało przedłużone.")
-#         return redirect('rentals')
-#
-#     return render(request, 'app/extend_rental.html', {'rental': rental})
