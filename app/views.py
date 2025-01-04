@@ -763,3 +763,6 @@ def extend_rental(request, rental_id):
             return redirect('payment_paypal', car_id=rental.car.id)
 
     return render(request, 'app/extend_rental.html', {'rental': rental})
+
+def payment_success(request):
+    return render(request,'app/payment_success')

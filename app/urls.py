@@ -59,5 +59,6 @@ urlpatterns = [
     path('payment_cash/<int:car_id>/', views.payment_cash, name='payment_cash'),
     path('rentals/extend/<int:rental_id>/', views.extend_rental, name='extend_rental'),
     # path('rentals/extend/<int:rental_id>/', views.extend_rental, name='extend_rental'),
+    path('payment_success/', views.payment_success, name='payment_success'),
 
 ]
