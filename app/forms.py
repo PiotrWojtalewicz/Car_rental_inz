@@ -10,7 +10,17 @@ class CarForm(forms.ModelForm):
     class Meta:
         model = Car
         fields = ['brand', 'model', 'year', 'rental_price', 'is_available', 'representative']
-
+        labels = {
+            'brand': 'Marka',
+            'model': 'Model',
+            'year': 'Rok produkcji',
+            'rental_price': 'Cena wypożyczenia',
+            'is_available': 'Dostępny',
+            'representative': 'Reprezentant',
+        }
+        widgets = {
+            'rental_price': forms.NumberInput(attrs={'placeholder': 'Podaj cenę w PLN'}),
+        }
 
 from django import forms
 from django.contrib.auth.models import User
@@ -49,14 +59,33 @@ class RegistrationForm(forms.ModelForm):
         return password_confirm
 
 
+# class LoginForm(forms.Form):
+#     username = forms.CharField(max_length=150, label="Username")
+#     password = forms.CharField(widget=forms.PasswordInput, label="Password")
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=150, label="Username")
-    password = forms.CharField(widget=forms.PasswordInput, label="Password")
+    username = forms.CharField(
+        max_length=150,
+        label="Nazwa użytkownika",
+        widget=forms.TextInput(attrs={'placeholder': 'Podaj nazwę użytkownika'})
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Podaj hasło'}),
+        label="Hasło"
+    )
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
+        labels = {
+            'car': 'Samochód',
+            'start_date': 'Data rozpoczęcia',
+            'end_date': 'Data zakończenia',
+        }
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 # class RentalForm(ModelForm):
 #     class Meta:
@@ -93,6 +122,11 @@ class RentalForm(forms.ModelForm):
     class Meta:
         model = Rental
         fields = ['car', 'start_date', 'end_date']
+        labels = {
+            'car': 'Samochód',
+            'start_date': 'Data rozpoczęcia',
+            'end_date': 'Data zakończenia',
+        }
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),

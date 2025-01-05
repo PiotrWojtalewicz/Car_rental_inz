@@ -25,6 +25,51 @@
 {#    <button type="submit">Dodaj samochód</button>#}
 {#</form>#}
 
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<div class="container mt-5">#}
+{#    <h2 class="mb-4">Dodaj nowy samochód</h2>#}
+{#    <form method="POST" class="needs-validation" novalidate>#}
+{#        {% csrf_token %}#}
+{#        <div class="mb-3">#}
+{#            <label for="model" class="form-label">Model</label>#}
+{#            <input type="text" id="model" name="model" class="form-control" placeholder="Wprowadź model samochodu" required>#}
+{#        </div>#}
+{##}
+{#        <div class="mb-3">#}
+{#            <label for="brand" class="form-label">Marka</label>#}
+{#            <select id="brand" name="brand" class="form-select" required>#}
+{#                <option value="" disabled selected>Wybierz markę</option>#}
+{#                <option value="BMW">BMW</option>#}
+{#                <option value="Audi">Audi</option>#}
+{#                <option value="Mercedes">Mercedes</option>#}
+{#                <option value="Toyota">Toyota</option>#}
+{#                <option value="Honda">Honda</option>#}
+{#                <option value="Ford">Ford</option>#}
+{#            </select>#}
+{#        </div>#}
+{##}
+{#        <div class="mb-3">#}
+{#            <label for="year" class="form-label">Rok</label>#}
+{#            <input type="number" id="year" name="year" class="form-control" min="1900" max="2024" placeholder="Wprowadź rok produkcji" required>#}
+{#        </div>#}
+{##}
+{#        <div class="mb-3">#}
+{#            <label for="rental_price" class="form-label">Cena wypożyczenia (PLN)</label>#}
+{#            <input type="number" id="rental_price" name="rental_price" class="form-control" step="0.01" min="0" placeholder="Wprowadź cenę wypożyczenia" required>#}
+{#        </div>#}
+{##}
+{#        <div class="form-check mb-4">#}
+{#            <input type="checkbox" id="is_available" name="is_available" class="form-check-input" checked>#}
+{#            <label for="is_available" class="form-check-label">Dostępny</label>#}
+{#        </div>#}
+{##}
+{#        <button type="submit" class="btn btn-primary w-100">Dodaj samochód</button>#}
+{#    </form>#}
+{#</div>#}
+{#{% endblock %}#}
+
 {% extends 'base.html' %}
 
 {% block content %}
@@ -47,11 +92,12 @@
                 <option value="Toyota">Toyota</option>
                 <option value="Honda">Honda</option>
                 <option value="Ford">Ford</option>
+                <option value="Skoda">Skoda</option>
             </select>
         </div>
 
         <div class="mb-3">
-            <label for="year" class="form-label">Rok</label>
+            <label for="year" class="form-label">Rok produkcji</label>
             <input type="number" id="year" name="year" class="form-control" min="1900" max="2024" placeholder="Wprowadź rok produkcji" required>
         </div>
 

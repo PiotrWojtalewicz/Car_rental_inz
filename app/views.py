@@ -117,6 +117,7 @@ def rental_history(request):
     active_rentals = Rental.objects.filter(user=request.user, end_date__gte=current_date)
     completed_rentals = Rental.objects.filter(user=request.user, end_date__lt=current_date)
 
+    print("Dzisiejsza data:", current_date)
     print("Aktywne wypożyczenia:", active_rentals)
     print("Zakończone wypożyczenia:", completed_rentals)
 
@@ -405,12 +406,49 @@ def rental_confirmation(request, rental_id):
     return render(request, 'app/rental_confirmation.html', {'rental': rental})
 
 
+# @login_required
+# def reservation_summary(request):
+#     rental_data = request.session.get('rental_data', None)
+#
+#     if rental_data is None:
+#         return redirect('rent_car')  # Jeśli brak danych, wróć do formularza
+#
+#     if request.method == 'POST':
+#         payment_method = request.POST.get('payment_method')
+#         accept_terms = request.POST.get('accept_terms')
+#
+#         if accept_terms != 'on':
+#             messages.error(request, "Musisz zaakceptować warunki wypożyczenia!")
+#             return redirect('reservation_summary')  # Przekierowanie z komunikatem o błędzie
+#
+#         # Utwórz rezerwację na podstawie danych z sesji
+#         car = get_object_or_404(Car, id=rental_data['car_id'])
+#         rental = Rental.objects.create(
+#             car=car,
+#             user=request.user,
+#             start_date=rental_data['start_date'],
+#             end_date=rental_data['end_date'],
+#             total_cost=rental_data['total_cost'],
+#             payment_method=payment_method,
+#         )
+#
+#         # Zmiana dostępności samochodu na niedostępny
+#         car.is_available = False
+#         car.save()
+#
+#         # Usuń dane z sesji
+#         del request.session['rental_data']
+#
+#         return redirect('rentals')
+
 @login_required
-def reservation_summary(request):
+def reservation_summary(request, car_id):
     rental_data = request.session.get('rental_data', None)
 
     if rental_data is None:
-        return redirect('rent_car')  # Jeśli brak danych, wróć do formularza
+        return redirect('rent_car', car_id=car_id)
+
+    car = get_object_or_404(Car, id=car_id)
 
     if request.method == 'POST':
         payment_method = request.POST.get('payment_method')
@@ -418,10 +456,9 @@ def reservation_summary(request):
 
         if accept_terms != 'on':
             messages.error(request, "Musisz zaakceptować warunki wypożyczenia!")
-            return redirect('reservation_summary')  # Przekierowanie z komunikatem o błędzie
+            return redirect('reservation_summary', car_id=car_id)
 
-        # Utwórz rezerwację na podstawie danych z sesji
-        car = get_object_or_404(Car, id=rental_data['car_id'])
+        # Tworzenie nowego wypożyczenia
         rental = Rental.objects.create(
             car=car,
             user=request.user,
@@ -429,16 +466,18 @@ def reservation_summary(request):
             end_date=rental_data['end_date'],
             total_cost=rental_data['total_cost'],
             payment_method=payment_method,
+            status='active',
+            payment_status='pending'
         )
+        rental.save()  # Upewnij się, że zapisujesz obiekt do bazy danych
 
-        # Zmiana dostępności samochodu na niedostępny
         car.is_available = False
         car.save()
 
-        # Usuń dane z sesji
         del request.session['rental_data']
 
         return redirect('rentals')
+    return render(request, 'app/reservation_summary.html', {'car': car, 'rental_data': rental_data})
 
 # def terms_conditions(request):
 #     return render(request, 'app/terms_conditions.html')
@@ -582,10 +621,34 @@ def payment_view(request, rental_id):
 
     return render(request, 'app/payment.html', {'rental': rental})
 
+# @login_required
+# def payment_card(request, car_id):
+#     car = get_object_or_404(Car, id=car_id)
+#     rental_data = request.session.get('rental_data')
+#
+#     if request.method == 'POST':
+#         card_number = request.POST.get('card_number')
+#         card_holder = request.POST.get('card_holder')
+#         expiry_date = request.POST.get('expiry_date')
+#         csv_code = request.POST.get('csv_code')
+#
+#         # Walidacja danych karty (opcjonalnie)
+#         if not card_number or not card_holder or not expiry_date or not csv_code:
+#             messages.error(request, "Wprowadź wszystkie wymagane dane karty!")
+#             return redirect('payment_card', car_id=car_id)
+#
+#         # Logika płatności kartą (np. z użyciem API płatności)
+#         return render(request, 'app/payment_success.html')
+#
+#     return render(request, 'app/payment_card.html', {'car': car, 'rental_data': rental_data})
 @login_required
 def payment_card(request, car_id):
     car = get_object_or_404(Car, id=car_id)
     rental_data = request.session.get('rental_data')
+
+    if not rental_data:
+        messages.error(request, "Brak danych rezerwacji.")
+        return redirect('rent_car', car_id=car_id)
 
     if request.method == 'POST':
         card_number = request.POST.get('card_number')
@@ -593,19 +656,66 @@ def payment_card(request, car_id):
         expiry_date = request.POST.get('expiry_date')
         csv_code = request.POST.get('csv_code')
 
-        # Walidacja danych karty (opcjonalnie)
-        if not card_number or not card_holder or not expiry_date or not csv_code:
+        if not all([card_number, card_holder, expiry_date, csv_code]):
             messages.error(request, "Wprowadź wszystkie wymagane dane karty!")
             return redirect('payment_card', car_id=car_id)
 
-        # Logika płatności kartą (np. z użyciem API płatności)
+        # Zapisanie wypożyczenia
+        rental = Rental.objects.create(
+            car=car,
+            user=request.user,
+            start_date=rental_data['start_date'],
+            end_date=rental_data['end_date'],
+            total_cost=rental_data['total_cost'],
+            payment_method='credit_card',
+            payment_status='completed',
+        )
+
+        car.is_available = False
+        car.save()
+        del request.session['rental_data']
+
         return redirect('payment_success')
 
     return render(request, 'app/payment_card.html', {'car': car, 'rental_data': rental_data})
+# @login_required
+# def payment_bank(request, car_id):
+#     car = get_object_or_404(Car, id=car_id)
+#     rental_data = request.session.get('rental_data')
+#
+#     return render(request, 'app/payment_bank.html', {
+#         'car': car,
+#         'rental_data': rental_data,
+#         'bank_account': '1111111111111111',
+#         'owner_name': 'Piotr Wojtalewicz',
+#         'company_name': 'Car_rental_PW',
+#     })
 @login_required
 def payment_bank(request, car_id):
     car = get_object_or_404(Car, id=car_id)
     rental_data = request.session.get('rental_data')
+
+    if not rental_data:
+        messages.error(request, "Brak danych rezerwacji.")
+        return redirect('rent_car', car_id=car_id)
+
+    if request.method == 'POST':
+        # Zapisanie wypożyczenia
+        rental = Rental.objects.create(
+            car=car,
+            user=request.user,
+            start_date=rental_data['start_date'],
+            end_date=rental_data['end_date'],
+            total_cost=rental_data['total_cost'],
+            payment_method='bank_transfer',
+            payment_status='pending',
+        )
+
+        car.is_available = False
+        car.save()
+        del request.session['rental_data']
+
+        return redirect('payment_success')
 
     return render(request, 'app/payment_bank.html', {
         'car': car,
@@ -615,21 +725,85 @@ def payment_bank(request, car_id):
         'company_name': 'Car_rental_PW',
     })
 
+
+
+
+
+
+# @login_required
+# def payment_paypal(request, car_id):
+#     car = get_object_or_404(Car, id=car_id)
+#     rental_data = request.session.get('rental_data')
+#
+#     # Tutaj możesz dodać integrację z API PayPal
+#     return render(request, 'app/payment_paypal.html', {'car': car, 'rental_data': rental_data})
 @login_required
 def payment_paypal(request, car_id):
     car = get_object_or_404(Car, id=car_id)
     rental_data = request.session.get('rental_data')
 
-    # Tutaj możesz dodać integrację z API PayPal
+    if not rental_data:
+        messages.error(request, "Brak danych rezerwacji.")
+        return redirect('rent_car', car_id=car_id)
+
+    if request.method == 'POST':
+        # Zapisanie wypożyczenia
+        rental = Rental.objects.create(
+            car=car,
+            user=request.user,
+            start_date=rental_data['start_date'],
+            end_date=rental_data['end_date'],
+            total_cost=rental_data['total_cost'],
+            payment_method='paypal',
+            payment_status='completed',
+        )
+
+        car.is_available = False
+        car.save()
+        del request.session['rental_data']
+
+        return redirect('payment_success')
+
     return render(request, 'app/payment_paypal.html', {'car': car, 'rental_data': rental_data})
 
+
+# @login_required
+# def payment_cash(request, car_id):
+#     car = get_object_or_404(Car, id=car_id)
+#     rental_data = request.session.get('rental_data')
+#
+#     # Możesz tutaj dodać wysyłkę potwierdzenia mailowego (opcjonalnie)
+#     return render(request, 'app/payment_cash.html', {'car': car})
 @login_required
 def payment_cash(request, car_id):
     car = get_object_or_404(Car, id=car_id)
     rental_data = request.session.get('rental_data')
 
-    # Możesz tutaj dodać wysyłkę potwierdzenia mailowego (opcjonalnie)
-    return render(request, 'app/payment_cash.html', {'car': car})
+    if not rental_data:
+        messages.error(request, "Brak danych rezerwacji.")
+        return redirect('rent_car', car_id=car_id)
+
+    if request.method == 'POST':
+        # Zapisanie wypożyczenia
+        rental = Rental.objects.create(
+            car=car,
+            user=request.user,
+            start_date=rental_data['start_date'],
+            end_date=rental_data['end_date'],
+            total_cost=rental_data['total_cost'],
+            payment_method='cash',
+            payment_status='pending',
+        )
+
+        car.is_available = False
+        car.save()
+        del request.session['rental_data']
+
+        return redirect('payment_success')
+
+    return render(request, 'app/payment_cash.html', {'car': car, 'rental_data': rental_data})
+
+
 
 # @login_required
 # def extend_rental(request, rental_id):
@@ -764,5 +938,7 @@ def extend_rental(request, rental_id):
 
     return render(request, 'app/extend_rental.html', {'rental': rental})
 
+@login_required
 def payment_success(request):
-    return render(request,'app/payment_success')
+    messages.success(request, "Płatność zakończona sukcesem!")
+    return render(request, 'app/payment_success.html')
