@@ -1,24 +1,3 @@
-{#{% extends 'base.html' %}#}
-{##}
-{#{% block content %}#}
-{#<div class="container my-4">#}
-{#    <h2 class="mb-4">Przedłuż wypożyczenie samochodu</h2>#}
-{#    <div class="card shadow-sm p-4">#}
-{#        <h4>{{ car.brand }} {{ car.model }}</h4>#}
-{#        <p><strong>Obecna data zakończenia:</strong> {{ rental.end_date }}</p>#}
-{#        <p><strong>Cena za dzień:</strong> {{ additional_cost_per_day }} PLN</p>#}
-{#        <p><strong>Opłata serwisowa:</strong> 20 PLN</p>#}
-{#        <form method="POST" class="mt-4">#}
-{#            {% csrf_token %}#}
-{#            <div class="mb-3">#}
-{#                <label for="additional_days" class="form-label">Dodatkowe dni:</label>#}
-{#                <input type="number" class="form-control" id="additional_days" name="additional_days" min="1" required>#}
-{#            </div>#}
-{#            <button type="submit" class="btn btn-primary">Przedłuż wypożyczenie</button>#}
-{#        </form>#}
-{#    </div>#}
-{#</div>#}
-{#{% endblock %}#}
 
 {% extends 'base.html' %}
 

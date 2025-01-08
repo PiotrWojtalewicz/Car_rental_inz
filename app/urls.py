@@ -29,15 +29,6 @@ urlpatterns = [
     path('add_car/', views.add_car, name='add_car'),
 
 
-    #admin
-    # path('admin/add_car/', views_admin.add_car, name='add_car'),
-    # path('admin/car/<int:car_id>/update/', views_admin.car_update, name='car_update'),
-    # path('admin/car/<int:car_id>/delete/', views_admin.car_delete, name='car_delete'),
-    # path('admin/add_representative/', views_admin.add_representative, name='add_representative'),
-    # path('admin/cars/', views_admin.car_list, name='car_list'),
-    # path('admin/car/<int:car_id>/', views_admin.car_detail, name='car_detail'),
-    # path('admin/car/<int:car_id>/assign_representative/', views_admin.assign_representative,
-    #      name='assign_representative'),
 
     #możliwośc wypożyczenia samochodu
     path('availability/', views.availability_calendar, name='availability_calendar'),
@@ -49,16 +40,14 @@ urlpatterns = [
     #płatność
     path('reservation_summary/<int:car_id>/', views.reservation_summary, name='reservation_summary'),
     path('payment/<int:rental_id>/', views.payment_view, name='payment_view'),
-    #kalendarz
-    # path('car/<int:car_id>/rental/', views.car_rental, name='car_rental'),
-    # path('rental/confirmation/<int:rental_id>/', views.rental_confirmation, name='rental_confirmation'),
+
     #widoki po wyborze metody płatności
     path('payment_card/<int:car_id>/', views.payment_card, name='payment_card'),
     path('payment_bank/<int:car_id>/', views.payment_bank, name='payment_bank'),
     path('payment_paypal/<int:car_id>/', views.payment_paypal, name='payment_paypal'),
     path('payment_cash/<int:car_id>/', views.payment_cash, name='payment_cash'),
     path('rentals/extend/<int:rental_id>/', views.extend_rental, name='extend_rental'),
-    # path('rentals/extend/<int:rental_id>/', views.extend_rental, name='extend_rental'),
+
     path('payment_success/', views.payment_success, name='payment_success'),
 
 ]

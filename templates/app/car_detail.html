@@ -1,36 +1,5 @@
-{#{% extends 'base.html' %}#}
-{#{% block content %}#}
-{#<h1>{{ car.brand }} {{ car.model }}</h1>#}
-{#<p>Rok produkcji: {{ car.year }}</p>#}
-{#<p>Cena wynajmu: {{ car.rental_price }}</p>#}
-{#<p>Dostępny: {{ car.is_available }}</p>#}
-{#<p>Przedstawiciel: {{ car.representative }}</p>#}
-{#<a href="{% url 'car_update' car.id %}">Edytuj</a>#}
-{#<form method="post" action="{% url 'car_delete' car.id %}">#}
-{#    {% csrf_token %}#}
-{#    <button type="submit">Usuń</button>#}
-{#</form>#}
-{#<a href="{% url 'car_list' %}">Powrót do listy</a>#}
-{#{% endblock %}#}
 
-{#{% extends 'base.html' %}#}
-{#{% block content %}#}
-{#    <h1>{{ car.brand }} {{ car.model }}</h1>#}
-{#    <p>Rok produkcji: {{ car.year }}</p>#}
-{#    <p>Cena wypożyczenia: {{ car.rental_price }}</p>#}
-{#    <p>Dostępność: {% if car.is_available %} Dostępny {% else %} Niedostępny {% endif %}</p>#}
-{##}
-{#    {% if car.is_available %}#}
-{#        <form method="get" action="{% url 'rent_car' car.id %}">#}
-{#            <label for="date">Wybierz datę rozpoczęcia wynajmu:</label>#}
-{#            <input type="date" name="date" id="date">#}
-{#            <button type="submit">Zarezerwuj</button>#}
-{#        </form>#}
-{#    {% else %}#}
-{#        <p>Samochód jest już wypożyczony w wybranym terminie.</p>#}
-{#    {% endif %}#}
-{#{% endblock %}#}
-
+{#<
 {% extends 'base.html' %}
 
 {% block content %}

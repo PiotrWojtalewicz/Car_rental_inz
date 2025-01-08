@@ -1,20 +1,4 @@
-{#{% extends 'base.html' %}#}
-{##}
-{#{% block content %}#}
-{#<h2>Podsumowanie płatności</h2>#}
-{##}
-{#<p>Samochód: {{ rental.car.model }}</p>#}
-{#<p>Data rozpoczęcia: {{ rental.start_date }}</p>#}
-{#<p>Data zakończenia: {{ rental.end_date }}</p>#}
-{#<p>Liczba dni: {{ rental.end_date|date:"d/m/Y" }} - {{ rental.start_date|date:"d/m/Y" }}</p>#}
-{#<p>Całkowity koszt: {{ total_cost }} zł</p>#}
-{##}
-{#<form method="post">#}
-{#    {% csrf_token %}#}
-{#    {{ form.as_p }}#}
-{#    <button type="submit">Zapłać</button>#}
-{#</form>#}
-{#{% endblock %}#}
+
 
 {% extends 'base.html' %}
 

@@ -15,7 +15,7 @@ class Car(models.Model):
         ('AUDI', 'Audi'),
         ('MERCEDES', 'Mercedes'),
         ('TOYOTA', 'Toyota'),
-        ('HONDA', 'Honda'),  # Dodano przecinek
+        ('HONDA', 'Honda'),
         ('FORD', 'Ford'),
     )
 
@@ -37,12 +37,6 @@ class Car(models.Model):
                 for field in self.__class__._meta.fields]
 
 
-# class Representative(models.Model):
-#     name = models.CharField(max_length=100)
-#
-#     def __str__(self):
-#         return self.name
-
 
 class Car(models.Model):
     BRANDS = (
@@ -50,7 +44,7 @@ class Car(models.Model):
         ('AUDI', 'Audi'),
         ('MERCEDES', 'Mercedes'),
         ('TOYOTA', 'Toyota'),
-        ('HONDA', 'Honda'),  # Dodano przecinek
+        ('HONDA', 'Honda'),
         ('FORD', 'Ford'),
     )
 
@@ -75,7 +69,7 @@ class Car(models.Model):
         """
         Sprawdza, czy samochód jest dostępny w danym okresie.
         """
-        # Sprawdzamy, czy istnieje wypożyczenie tego samochodu w podanym okresie.
+
         conflicting_rentals = Rental.objects.filter(
             car=self,
             start_date__lte=end_date,
@@ -95,7 +89,6 @@ class Car(models.Model):
             self.is_available = False
         self.save()
 
-# Dodajemy model wypożyczenia
 
 class Rental(models.Model):
     STATUS_CHOICES = (

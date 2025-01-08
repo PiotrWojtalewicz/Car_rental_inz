@@ -59,9 +59,6 @@ class RegistrationForm(forms.ModelForm):
         return password_confirm
 
 
-# class LoginForm(forms.Form):
-#     username = forms.CharField(max_length=150, label="Username")
-#     password = forms.CharField(widget=forms.PasswordInput, label="Password")
 class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=150,
@@ -87,30 +84,6 @@ class ProfileEditForm(forms.ModelForm):
             'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
-# class RentalForm(ModelForm):
-#     class Meta:
-#         model = Rental
-#         fields = ['car', 'start_date', 'end_date']
-#         widgets = {
-#             'start_date': forms.DateInput(attrs={'type': 'date'}),
-#             'end_date': forms.DateInput(attrs={'type': 'date'}),
-#         }
-
-# class RentalForm(forms.ModelForm):
-#     class Meta:
-#         model = Rental
-#         fields = ['car', 'start_date', 'end_date']
-#         widgets = {
-#             'start_date': forms.DateInput(attrs={'type': 'date'}),
-#             'end_date': forms.DateInput(attrs={'type': 'date'}),
-#         }
-#
-#     def __init__(self, *args, **kwargs):
-#         super(RentalForm, self).__init__(*args, **kwargs)
-#         # Domyślnie ustawić daty na teraz i za 7 dni
-#         today = timezone.now().date()
-#         self.fields['start_date'].initial = today
-#         self.fields['end_date'].initial = today + timedelta(days=7)
 
 class RentalForm(forms.ModelForm):
     accept_terms = forms.BooleanField(
