@@ -100,8 +100,8 @@
         <mxCell id="H-3qkc8Rb3BWjqFPQm7p-25" value=" klient dokona rezerwacje&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;labelBackgroundColor=none;fontColor=#46495D;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="-30" y="200" width="160" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="H-3qkc8Rb3BWjqFPQm7p-26" value="klient wrezerwacje&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;labelBackgroundColor=none;fontColor=#46495D;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="145" y="490" width="160" height="26" as="geometry" />
+        <mxCell id="H-3qkc8Rb3BWjqFPQm7p-26" value="klient przechodzi do płatnosci&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;labelBackgroundColor=none;fontColor=#46495D;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="150" y="510" width="160" height="26" as="geometry" />
         </mxCell>
         <mxCell id="H-3qkc8Rb3BWjqFPQm7p-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#788AA3;fontColor=#46495D;fillColor=#B2C9AB;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="H-3qkc8Rb3BWjqFPQm7p-31" target="H-3qkc8Rb3BWjqFPQm7p-49">
           <mxGeometry relative="1" as="geometry" />
